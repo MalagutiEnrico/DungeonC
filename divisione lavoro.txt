@@ -1,0 +1,4 @@
+1 funzione parse con strcmp, funzione help
+
+2 funzione che stampa le informazioni, funzione guarda che descrive la stanza e 
+funzione stampa_inventario
