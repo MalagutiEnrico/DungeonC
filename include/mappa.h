@@ -20,16 +20,25 @@ ListaOggetti* crea_lista_oggetti();
 ListaMostri* crea_lista_mostri();
 
 /**
- * Funzione che crea la mappa del gioco
- * @return puntatore alla mappa del gioco
+ * Funzione che controlla se è presente una stanza nell'array stanze
+ * @param int* vettore delle stanze caricate
+ * @param int dimensione dell'array
+ * @param int numero della stanza da trovare
+ * @return Bool true se la trova
 */
-Mappa* crea_mappa();
+Bool trova_stanza(int* stanze, int stanze_visitate, int numero_stanza);
+
+/**
+ * Funzione che carica la stanza dal file della mappa
+ * @param int numero della stanza da caricare
+ * @return stanza caricata
+*/
+StanzaSalvataggio* carica_stanza(int numero_stanza);
 
 /**
  * Funzione che crea una stanza nella direzione di provenienza dell'eroe
- * @param Mappa* mappa dove creare la stanza
  * @param Stanza* provenienza stanza di provenienza dell'eroe
  * @param char* direzione di provenienza del giocatore
  * @return Stanza* puntatore alla stanza appena creata
 */
-Stanza* crea_stanza(Mappa* p, Stanza* provenienza, char* direzione);
+Stanza* crea_stanza(Stanza* provenienza, char* direzione);

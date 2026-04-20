@@ -56,22 +56,39 @@ ListaMostri* crea_lista_mostri(){
     riempi_lista_mostri(&l);
 }
 
-Mappa* crea_mappa(){
-    Mappa* p = (Mappa)malloc(sizeof(Mappa));
-    controlla_allocazione(p);
-    Stanza* s = (Stanza*)malloc(sizeof(Stanza));                //crea la prima stanza del gioco
-    controlla_allocazione(s);
-    p->inizio = s;                                              //assegnala all'inizio della lista
-    s->sud = NULL;                                              //cancella la stanza sud, non può uscire dal dungeon
-    return p;   
+Bool trova_stanza(int* stanze, int stanze_visitate, int numero_stanza){
+    for(int i=0; i<stanze_visitate; i++){
+        if(stanze[i] == numero_stanza)
+            return true;
+    }
+    return false;
 }
 
-Stanza* crea_stanza(Mappa* p, Stanza* provenienza, char* direzione){
-    Stanza* s = (Stanza*)malloc(sizeof(Stanza));                //crea la nuova stanza
+StanzaSalvataggio* carica_stanza(int numero_stanza){
+    FILE f = fopen("mappa.map", "rb");
+    controlla_allocazione(f);
+    StanzaSalvataggio* s = malloc(sizeof(StanzaSalvataggio));
     controlla_allocazione(s);
-    if(strcmp(direzione, "nor")){                               //in base alla direzione collega le stanza
-        provenienza->nord = s;
-        s->sud = provenienza;
+    long int offset = numero_stanza * sizeof(int);
+    fseek(f, offset, SEEK_SET);
+    fread(s, sizeof(stanza), 1, f);
+    fclose(f);
+    return s;
+}
+
+Stanza* crea_stanza(Stanza* provenienza, char* direzione){
+    int stanza_successiva;
+    Stanza* s = (Stanza*)malloc(sizeof(Stanza));                            //crea la nuova stanza
+    StanzaSalvataggio* s_s = (StanzaSalvataggio*)malloc(sizeof(StanzaSalvataggio));
+    controlla_allocazione(s);
+    if(strcmp(direzione, "nor")){                                           //in base alla direzione collega le stanza
+        stanza_successiva = s->nord;
+        if(num == -1){
+            printf("Stanza non accessibile\n");
+        }
+        else{
+            s_s = carica_stanza(stanza_successiva);                         //carica la stanza presente nella posizione
+        }
     }
     else if(strcmp(direzione, "est")){
         provenienza->est = s;

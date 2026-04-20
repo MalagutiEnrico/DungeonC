@@ -5,6 +5,13 @@
 #define MAX_SALUTE 100          //valore massimo di salute dell'eroe
 #define MAX_OGGETTI 5           //numero massimo di oggetti in una stanza
 #define DIREZIONI 4             //numero massimo di stanze accessibili da una stanza
+#define MAX_NUMEROSTANZE 10     //numero massimo di stanze caricabili
+
+//Definizione delle variabili booleane
+typedef enum{
+    false,
+    true,
+}Bool;
 
 //Definizione dei tipi di oggetto presenti nelle stanze e nell'inventario
 typedef enum{
@@ -64,6 +71,18 @@ typedef struct{
     int len;
 }ListaMostri;
 
+//definizione stanza caricata da file
+typedef struct{
+    int ID;
+    int nord;
+    int nord;
+    int sud;
+    int est;
+    int ovest;
+    int numero_oggetti;
+    int numero_mostri;
+}StanzaSalvataggio;
+
 //Definizione della struct stanza
 typedef struct Stanza{
     Stanza* nord;           //puntatori alle stanze
@@ -72,6 +91,11 @@ typedef struct Stanza{
     Stanza* ovest;
     ListaOggetti* oggetti;
     ListaMostri* mostri;
+    int nord;
+    int nord;
+    int sud;
+    int est;
+    int ovest;
     int numero_oggetti;
     int numero_mostri;
 }Stanza;

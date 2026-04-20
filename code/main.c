@@ -46,6 +46,7 @@ void stampa_stato(Eroe* e){
 
 int main(){
     char input[MAX_DIMINPUT];
+    int stanze_caricate[MAX_NUMEROSTANZE];
     fgets(input, MAX_DIMINPUT, stdin);
     TipoComando dato = parse(input);
 }
