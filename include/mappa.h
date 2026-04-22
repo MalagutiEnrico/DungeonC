@@ -2,24 +2,6 @@
 #include "tipi.h"
 
 /**
- * Funzione che popola una lista di oggetti in modo casuale, che andranno a popolare le stanze
- * @param ListaOggetti* lista degli oggetti da popolare
-*/
-void riempi_lista_oggetti(ListaOggetti* l);
-
-/**
- * Funzione che crea una lista di oggetti che popolano le stanze
- * @return puntatore alla lista di oggetti
-*/
-ListaOggetti* crea_lista_oggetti();
-
-/**
- * Funzione che crea una lista di mostri che popolano le stanze
- * @return puntatore alla lista
-*/
-ListaMostri* crea_lista_mostri();
-
-/**
  * Funzione che controlla se è presente una stanza nell'array stanze
  * @param int* vettore delle stanze caricate
  * @param int dimensione dell'array
@@ -31,14 +13,40 @@ Bool trova_stanza(int* stanze, int stanze_visitate, int numero_stanza);
 /**
  * Funzione che carica la stanza dal file della mappa
  * @param int numero della stanza da caricare
- * @return stanza caricata
+ * @return stanza caricata nel formato stanza_salvataggio
 */
 StanzaSalvataggio* carica_stanza(int numero_stanza);
 
 /**
+ * Funzione che converte una stanza caricata dal file .map in una stanza nella memoria del gioco
+ * @param StanzaSalvataggio* stanza da convertire
+ * @return Stanza* puntatore alla nuova stanza allocata
+*/
+Stanza* converti_stanza(StanzaSalvataggio* s_s);
+
+/**
+ * Funzione che crea un oggetto e lo inserisce nella stanza
+ * @param TipoOggetto* tipo dell'oggetto da creare
+ * @return Oggetto* puntatore all'oggetto creato
+*/
+Oggetto* crea_oggetto(TipoOggetto o);
+
+/**
+ * Funzione che mette un mostro in una stanza
+ * @param TipoMostro* tipo del mostro da creare
+ * @return Mostro* puntatore al mostro creato
+*/
+Mostro* crea_mostro(TipoMostro m);
+/**
  * Funzione che crea una stanza nella direzione di provenienza dell'eroe
  * @param Stanza* provenienza stanza di provenienza dell'eroe
  * @param char* direzione di provenienza del giocatore
- * @return Stanza* puntatore alla stanza appena creata
+ * @return Stanza* puntatore alla stanza appena creata; ritorna a NULL se la direzione non è valida
 */
 Stanza* crea_stanza(Stanza* provenienza, char* direzione);
+
+/**
+ * Funzione che elimina una mappa
+ * @param Mappa* mappa da eliminare
+*/
+void elimina_mappa(Mappa* p);

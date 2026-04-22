@@ -47,8 +47,9 @@ typedef enum{
 }TipoComando;
 
 //Definizione della struct oggetto come nodo
-typedef struct{
+typedef struct Oggetto{
     TipoOggetto tipo;
+    int val;
     Oggetto* next;
 }Oggetto;
 
@@ -75,29 +76,28 @@ typedef struct{
 typedef struct{
     int ID;
     int nord;
-    int nord;
     int sud;
     int est;
     int ovest;
-    int numero_oggetti;
-    int numero_mostri;
+    TipoOggetto tipo_oggetto;
+    TipoMostro tipo_mostro;
 }StanzaSalvataggio;
 
 //Definizione della struct stanza
 typedef struct Stanza{
+    Stanza* next;           //puntatore alla stanza successiva, serve a eliminare la mappa
     Stanza* nord;           //puntatori alle stanze
     Stanza* sud;
     Stanza* est;
     Stanza* ovest;
-    ListaOggetti* oggetti;
-    ListaMostri* mostri;
-    int nord;
-    int nord;
-    int sud;
-    int est;
-    int ovest;
-    int numero_oggetti;
-    int numero_mostri;
+    Oggetto* oggetto;
+    Mostro* mostro;
+    TipoOggetto tipo_oggetto;
+    TipoMostro tipo_mostro;
+    int numero_nord;
+    int numero_sud;
+    int numero_est;
+    int numero_ovest;
 }Stanza;
 
 typedef struct{

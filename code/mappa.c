@@ -4,58 +4,6 @@
 #include "../include/tipi.h"
 #include "../include/mappa.h"
 
-void riempi_lista_oggetti(ListaOggetti* l){
-    int numero_oggetti = rand() % MAX_OGGETTI;                  //genera un numero casuale di oggetti
-    Oggetto* o = (Oggetto*)malloc(sizeof(Oggetto));
-    controlla_allocazione(o);
-    for(int i=0; i<numero_oggetti; i++){
-        Oggetto* tmp = (Oggetto*)malloc(sizeof(Oggetto));       //crea l'oggetto temporaneo
-        controlla_allocazione(tmp);
-        tmp->tipo = rand() % NUM_OGGETTI;                       //crea un oggetto casuale
-        if(i == 0){                                             //se è la prima interazione, allora lo inserisce all'inizio della lista
-            l->head = tmp;
-        }
-        else{                                                   //altrimenti lo inserisce in coda
-            o->next = tmp;
-        }
-        o = tmp;
-        l->len++;                                               //aggiorno la lunghezza della lista
-    }
-    o->next = NULL;                                             //finito il ciclo, punta a NULL
-}
-
-ListaOggetti* crea_lista_oggetti(){
-    ListaOggetti* l = (ListaOggetti*)malloc(sizeof(ListaOggetti));
-    controlla_allocazione(p);
-    riempi_lista_oggetti(&l);
-    return l;
-}
-
-void riempi_lista_mostri(ListaMostri* l){
-    int numero_mostri = rand() % NUM_MOSTRI;
-    Mostro* m = (Mostro*)malloc(sizeof(Mostro));
-    controlla_allocazione(m);
-    for(int i=0; i<numero_mostri; i++){
-        Mostro* tmp = (Mostro*)malloc(sizeof(Mostro));          //crea l'oggetto temporaneo
-        controlla_allocazione(tmp);
-        tmp->tipo = rand() % NUM_MOSTRI;                        //crea un oggetto casuale
-        if(i == 0){                                             //se è la prima interazione, allora lo inserisce all'inizio della lista
-            l->head = tmp;
-        }
-        else{                                                   //altrimenti lo inserisce in coda
-            o->next = tmp;
-        }
-        o = tmp;
-        l->len++; 
-    }
-}
-
-ListaMostri* crea_lista_mostri(){
-    ListaMostri* l = (ListaMostri*)malloc(sizeof(ListaMostri));
-    controlla_allocazione(l);
-    riempi_lista_mostri(&l);
-}
-
 Bool trova_stanza(int* stanze, int stanze_visitate, int numero_stanza){
     for(int i=0; i<stanze_visitate; i++){
         if(stanze[i] == numero_stanza)
@@ -65,47 +13,143 @@ Bool trova_stanza(int* stanze, int stanze_visitate, int numero_stanza){
 }
 
 StanzaSalvataggio* carica_stanza(int numero_stanza){
-    FILE f = fopen("mappa.map", "rb");
+    FILE* f = fopen("mappa.map", "rb");
     controlla_allocazione(f);
-    StanzaSalvataggio* s = malloc(sizeof(StanzaSalvataggio));
+    StanzaSalvataggio* s = (StanzaSalvataggio*)malloc(sizeof(StanzaSalvataggio));
     controlla_allocazione(s);
-    long int offset = numero_stanza * sizeof(int);
-    fseek(f, offset, SEEK_SET);
-    fread(s, sizeof(stanza), 1, f);
+    long int offset = sizeof(int) + numero_stanza * sizeof(StanzaSalvataggio);    //sizeof dettato dal numero delle stanze + le stanze effettive
+    if(fseek(f, offset, SEEK_SET) != 0){
+        fclose(f);
+        free(s);
+        return NULL;
+    }
+    fread(s, sizeof(StanzaSalvataggio), 1, f);
     fclose(f);
     return s;
 }
 
-Stanza* crea_stanza(Stanza* provenienza, char* direzione){
-    int stanza_successiva;
-    Stanza* s = (Stanza*)malloc(sizeof(Stanza));                            //crea la nuova stanza
-    StanzaSalvataggio* s_s = (StanzaSalvataggio*)malloc(sizeof(StanzaSalvataggio));
+Stanza* converti_stanza(StanzaSalvataggio* s_s){
+    Stanza* s = (Stanza*)malloc(sizeof(Stanza));        //alloca lo spazio per una stanza
     controlla_allocazione(s);
-    if(strcmp(direzione, "nor")){                                           //in base alla direzione collega le stanza
-        stanza_successiva = s->nord;
-        if(num == -1){
-            printf("Stanza non accessibile\n");
-        }
-        else{
-            s_s = carica_stanza(stanza_successiva);                         //carica la stanza presente nella posizione
-        }
-    }
-    else if(strcmp(direzione, "est")){
-        provenienza->est = s;
-        s->ovest = provenienza;
-    }
-    else if(strcmp(direzione, "sud")){
-        provenienza->sud = s;
-        s->ovest = provenienza;
-    }
-    else if(strcmp(direzione, "ove")){
-        provenienza->ovest = s;
-        s->est = provenienza;
-    }
-    s->oggetti = crea_lista_oggetti();                          //popola la stanza di oggetti
-    s->mostri = crea_lista_mostri();                            //popola la stanza di mostri
+    s->numero_nord = s_s->nord;                                //copia i valori dei puntatori
+    s->numero_est = s_s->est;
+    s->numero_sud = s_s->sud;
+    s->numero_ovest = s_s->ovest;
+    s->tipo_oggetto = s_s->tipo_oggetto;
+    s->tipo_mostro = s_s->tipo_mostro;
     return s;
 }
 
-/*Funzione che crea una nuova stanza. manca la mappatura generale (fine della mappa)
-e manca la gestione delle direzioni delle altre stanze, in maniera casuale (?)*/
+Oggetto* crea_oggetto(TipoOggetto o){
+    Oggetto* ogg = (Oggetto*)malloc(sizeof(Oggetto));
+    controlla_allocazione(ogg);
+    ogg->tipo = o;
+    switch(o){
+        case POZIONE:
+            //potere curativo della pozione
+            break;
+        case ARMA:
+            //punti danno dell'arma
+            break;
+        case ARMATURA:
+            //punti danno aggiunti dall'armatura
+            break;
+        case CHIAVE:
+            //numero della porta
+            break;
+    }
+    return ogg;
+}
+
+Mostro* crea_mostro(TipoMostro m){
+    Mostro* mostro = (Mostro*)malloc(sizeof(Mostro));
+    controlla_allocazione(mostro);
+    mostro->tipo = m;
+    mostro->next = NULL;
+    switch(m){
+        case SCHELETRO:
+            mostro->HP = 10;
+            break;
+        case GOBLIN:
+            mostro->HP = 15;
+            break;
+        case DRAGO:
+            mostro->HP = 40;
+            break;
+        case BOSS:
+            mostro->HP = 80;
+            break;
+        default:
+            mostro->HP = 0;
+            break;
+    }
+    return mostro;
+}
+
+Stanza* crea_stanza(Stanza* provenienza, char* direzione){
+    StanzaSalvataggio* s_s = NULL;
+    Stanza* s = NULL;
+    if(!strcmp(direzione, "nor")){                       //in base alla direzione collega le stanza
+        if(provenienza->numero_nord == -1){                              //caso in cui la stanza non esista
+            return NULL;
+        }
+        else{                                           //la stanza esiste
+            s_s = carica_stanza(provenienza->nord);               //carica la struttura da file
+            s = converti_stanza(s_s);                   //la converte in una stanza del gioco
+            provenienza->nord = s;                      //imposta i collegamenti con la stanza di provenienza
+            s->sud = provenienza;
+        }
+    }
+    else if(!strcmp(direzione, "est")){
+        if(provenienza->numero_est == -1){
+            return NULL;
+        }
+        else{
+            s_s = carica_stanza(provenienza->est);
+            s = converti_stanza(s_s);
+            provenienza->est = s;
+            s->ovest = provenienza;
+        }
+    }
+    else if(!strcmp(direzione, "sud")){
+        if(provenienza->numero_sud == -1){
+            return NULL;
+        }
+        else{
+            s_s = carica_stanza(provenienza->sud);
+            s = converti_stanza(s_s);
+            provenienza->sud = s;
+            s->nord = provenienza;
+        }
+    }
+    else if(!strcmp(direzione, "ove")){
+        if(provenienza->numero_ovest == -1){
+            return NULL;
+        }
+        else{
+            s_s = carica_stanza(provenienza->ovest);
+            s = converti_stanza(s_s);
+            provenienza->ovest = s;
+            s->est = provenienza;
+        }
+    }
+    else{
+        return NULL;                                            //caso in cui la direzione non sia valida   
+    }
+    free(s_s);                                                  //libera la memoria della stanza salvata
+    s->oggetto = crea_oggetto(s->tipo_oggetto);                 //crea l'oggetto di tipo specificato dal file
+    s->mostro = crea_mostro(s->tipo_mostro);                    //crea il mostro ti tipo specificato dal file
+    return s;
+}
+
+void elimina_mappa(Mappa* p){
+    Stanza* s = p->inizio;
+    while(s != NULL){
+        Stanza* tmp = s;
+        s = s->next;
+        free(tmp->oggetto);                                      //libera la memoria della lista di oggetti 
+        free(tmp->mostro);                                        //libera la memoria della lista di mostri                                       //libera la memoria del puntatore alla stanza ovest
+        free(tmp);
+    }
+    free(p);
+}
