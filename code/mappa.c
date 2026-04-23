@@ -57,6 +57,8 @@ Oggetto* crea_oggetto(TipoOggetto o){
         case CHIAVE:
             //numero della porta
             break;
+        default:
+            return NULL;
     }
     return ogg;
 }
@@ -80,7 +82,7 @@ Mostro* crea_mostro(TipoMostro m){
             mostro->HP = 80;
             break;
         default:
-            mostro->HP = 0;
+            return NULL;
             break;
     }
     return mostro;
