@@ -12,3 +12,25 @@ Inventario* crea_inventario();
  * @return Eroe* puntatore all'eroe
 */
 Eroe* crea_eroe();
+
+/**
+ * Funzione che permette ad un eroe di cambiare una stanza
+ * @param Eroe* e eroe del gioco che desidera cambiare stanza
+ * @param char* direzione che l'eroe vuole intraprendere
+ * 
+*/
+void cambia_stanza(Eroe* e, char* direzione);
+
+/**
+ * Funzione che ritorna al tipo di oggetto in base all'input dell'utente
+ * @param char* input dell'utente
+ * @return TipoOggetto tipo dell'oggetto selezionato
+*/
+TipoOggetto tipo_oggetto(char input);
+
+/**
+ * Funzione che aggiunge un oggetto all'inventario dell'utente
+ * @param Eroe* a cui aggiungere l'oggetto
+ * @param TipoOggetto tipo dell'oggetto da aggiungere
+*/
+void prendi_oggetto(Eroe* e, TipoOggetto tipo);

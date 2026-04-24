@@ -4,10 +4,15 @@
 #include "../include/tipi.h"
 #include "../include/mappa.h"
 
-Bool trova_stanza(int* stanze, int stanze_visitate, int numero_stanza){
-    for(int i=0; i<stanze_visitate; i++){
-        if(stanze[i] == numero_stanza)
+Bool trova_stanza(Mappa* stanze, int numero_stanza){
+    if(numero_stanza == -1)
+        return false;
+    Stanza* current = stanze->inizio;
+    while(current != NULL){
+        if(current->ID == numero_stanza){
             return true;
+        }
+        current = current->next;
     }
     return false;
 }
@@ -31,6 +36,7 @@ StanzaSalvataggio* carica_stanza(int numero_stanza){
 Stanza* converti_stanza(StanzaSalvataggio* s_s){
     Stanza* s = (Stanza*)malloc(sizeof(Stanza));        //alloca lo spazio per una stanza
     controlla_allocazione(s);
+    s->ID = s_s->ID;
     s->numero_nord = s_s->nord;                                //copia i valori dei puntatori
     s->numero_est = s_s->est;
     s->numero_sud = s_s->sud;
@@ -38,6 +44,14 @@ Stanza* converti_stanza(StanzaSalvataggio* s_s){
     s->tipo_oggetto = s_s->tipo_oggetto;
     s->tipo_mostro = s_s->tipo_mostro;
     return s;
+}
+
+Mappa* crea_mappa(){
+    Mappa* m = (Mappa*)malloc(sizeof(Mappa));
+    controlla_allocazione(m);
+    m->inizio = NULL;
+    m->numero_stanze = 0;
+    return m;
 }
 
 Oggetto* crea_oggetto(TipoOggetto o){
@@ -134,9 +148,6 @@ Stanza* crea_stanza(Stanza* provenienza, char* direzione){
             provenienza->ovest = s;
             s->est = provenienza;
         }
-    }
-    else{
-        return NULL;                                            //caso in cui la direzione non sia valida   
     }
     free(s_s);                                                  //libera la memoria della stanza salvata
     s->oggetto = crea_oggetto(s->tipo_oggetto);                 //crea l'oggetto di tipo specificato dal file

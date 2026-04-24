@@ -3,12 +3,11 @@
 
 /**
  * Funzione che controlla se è presente una stanza nell'array stanze
- * @param int* vettore delle stanze caricate
- * @param int dimensione dell'array
+ * @param Stanza* vettore delle stanze caricate
  * @param int numero della stanza da trovare
  * @return Bool true se la trova
 */
-Bool trova_stanza(int* stanze, int stanze_visitate, int numero_stanza);
+Bool trova_stanza(Mappa* p, int numero_stanza);
 
 /**
  * Funzione che carica la stanza dal file della mappa
@@ -23,6 +22,12 @@ StanzaSalvataggio* carica_stanza(int numero_stanza);
  * @return Stanza* puntatore alla nuova stanza allocata
 */
 Stanza* converti_stanza(StanzaSalvataggio* s_s);
+
+/**
+ * Funzione che crea una mappa nel gioco e la collega all'eroe
+ * @return Mappa* mappa allocata dal giocatore
+*/
+Mappa* crea_mappa();
 
 /**
  * Funzione che crea un oggetto e lo inserisce nella stanza

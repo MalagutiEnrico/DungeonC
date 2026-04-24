@@ -94,6 +94,7 @@ typedef struct Stanza{
     Mostro* mostro;
     TipoOggetto tipo_oggetto;
     TipoMostro tipo_mostro;
+    int ID;
     int numero_nord;
     int numero_sud;
     int numero_est;
@@ -117,6 +118,7 @@ typedef struct{
     int XP;
     Inventario* inventario;
     Stanza* stanza_corrente;
+    Mappa* mappa;
 }Eroe;
 
 /**
