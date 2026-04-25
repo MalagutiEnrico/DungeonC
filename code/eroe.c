@@ -42,20 +42,17 @@ void cambia_stanza(Eroe* e, char* direzione){
     else if(!strcmp(direzione, "ove")){
         numero_stanza = stanza_corrente->numero_ovest;
     }
-    if(trova_stanza(e->mappa, numero_stanza)){                          //se trova la stanza, allora la collega
+    if(numero_stanza == -1){
+        printf("In questa direzio è presente un muro. Cambia direzione oppure usa una torcia per vedere dove andare\n");
+    }
+    else if(trova_stanza(e->mappa, numero_stanza)){                          //se trova la stanza, allora la collega
         s = e->mappa->inizio;
         while(s->ID != numero_stanza)
             s = s->next;
         e->stanza_corrente = s;
     }
     else{                                                               //altrimenti la deve creare
-        s = crea_stanza(e->stanza_corrente, direzione);
-        if(s == NULL){                                                  //se è NULL vuole dire che non è accessibile
-            printf("In questa direzio è presente un muro. Cambia direzione oppure usa una torcia per vedere dove andare\n");
-        }
-        else{                                                           //altrimenti la imposta come stanza corrente
-            e->stanza_corrente = s;
-        }
+        e->stanza_corrente = crea_stanza(e->stanza_corrente, direzione);                                                          //altrimenti la imposta come stanza corrente
     }
 }
 

@@ -105,49 +105,29 @@ Mostro* crea_mostro(TipoMostro m){
 Stanza* crea_stanza(Stanza* provenienza, char* direzione){
     StanzaSalvataggio* s_s = NULL;
     Stanza* s = NULL;
-    if(!strcmp(direzione, "nor")){                       //in base alla direzione collega le stanza
-        if(provenienza->numero_nord == -1){                              //caso in cui la stanza non esista
-            return NULL;
-        }
-        else{                                           //la stanza esiste
-            s_s = carica_stanza(provenienza->nord);               //carica la struttura da file
-            s = converti_stanza(s_s);                   //la converte in una stanza del gioco
-            provenienza->nord = s;                      //imposta i collegamenti con la stanza di provenienza
-            s->sud = provenienza;
-        }
+    if(!strcmp(direzione, "nor")){                       //in base alla direzione collega le stanza                                          //la stanza esiste
+        s_s = carica_stanza(provenienza->nord);               //carica la struttura da file
+        s = converti_stanza(s_s);                   //la converte in una stanza del gioco
+        provenienza->nord = s;                      //imposta i collegamenti con la stanza di provenienza
+        s->sud = provenienza;
     }
     else if(!strcmp(direzione, "est")){
-        if(provenienza->numero_est == -1){
-            return NULL;
-        }
-        else{
-            s_s = carica_stanza(provenienza->est);
-            s = converti_stanza(s_s);
-            provenienza->est = s;
-            s->ovest = provenienza;
-        }
+        s_s = carica_stanza(provenienza->est);
+        s = converti_stanza(s_s);
+        provenienza->est = s;
+        s->ovest = provenienza;
     }
     else if(!strcmp(direzione, "sud")){
-        if(provenienza->numero_sud == -1){
-            return NULL;
-        }
-        else{
-            s_s = carica_stanza(provenienza->sud);
-            s = converti_stanza(s_s);
-            provenienza->sud = s;
-            s->nord = provenienza;
-        }
+        s_s = carica_stanza(provenienza->sud);
+        s = converti_stanza(s_s);
+        provenienza->sud = s;
+        s->nord = provenienza;
     }
     else if(!strcmp(direzione, "ove")){
-        if(provenienza->numero_ovest == -1){
-            return NULL;
-        }
-        else{
-            s_s = carica_stanza(provenienza->ovest);
-            s = converti_stanza(s_s);
-            provenienza->ovest = s;
-            s->est = provenienza;
-        }
+        s_s = carica_stanza(provenienza->ovest);
+        s = converti_stanza(s_s);
+        provenienza->ovest = s;
+        s->est = provenienza;
     }
     free(s_s);                                                  //libera la memoria della stanza salvata
     s->oggetto = crea_oggetto(s->tipo_oggetto);                 //crea l'oggetto di tipo specificato dal file
