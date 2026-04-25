@@ -4,8 +4,6 @@
 #define MAX_DIMINPUT 100        //numero massimo di caratteri inseribili in fase di input
 #define MAX_SALUTE 100          //valore massimo di salute dell'eroe
 #define MAX_OGGETTI 5           //numero massimo di oggetti in una stanza
-#define DIREZIONI 4             //numero massimo di stanze accessibili da una stanza
-#define MAX_NUMEROSTANZE 10     //numero massimo di stanze caricabili
 
 //Definizione delle variabili booleane
 typedef enum{
@@ -34,23 +32,23 @@ typedef enum{
 
 //Definizione dei tipi di comando inseribili nel gioco
 typedef enum{
-    vai,
-    guarda,
-    prendi,
-    usa,
-    attacca,
-    inventario,
-    salva,
-    carica,
-    mappa,
-    help
+    VAI,
+    GUARDA,
+    PRENDI,
+    USA,
+    ATTACCA,
+    INVENTARIO,
+    SALVA,
+    CARICA,
+    MAPPA,
+    HELP
 }TipoComando;
 
 //Definizione della struct oggetto come nodo
 typedef struct Oggetto{
     TipoOggetto tipo;
     int val;
-    Oggetto* next;
+    struct Oggetto* next;
 }Oggetto;
 
 //Definizione della lista oggetti presenti nelle stanze
@@ -63,7 +61,7 @@ typedef struct{
 typedef struct Mostro{
     TipoMostro tipo;
     int HP;
-    Mostro* next;
+    struct Mostro* next;
 }Mostro;
 
 //Definizione della lista dei mostri presenti in una stanza
@@ -85,11 +83,11 @@ typedef struct{
 
 //Definizione della struct stanza
 typedef struct Stanza{
-    Stanza* next;           //puntatore alla stanza successiva, serve a eliminare la mappa
-    Stanza* nord;           //puntatori alle stanze
-    Stanza* sud;
-    Stanza* est;
-    Stanza* ovest;
+    struct Stanza* next;
+    struct Stanza* nord;
+    struct Stanza* sud;
+    struct Stanza* est;
+    struct Stanza* ovest;
     Oggetto* oggetto;
     Mostro* mostro;
     TipoOggetto tipo_oggetto;

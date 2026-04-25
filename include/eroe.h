@@ -8,10 +8,22 @@
 Inventario* crea_inventario();
 
 /**
+ * Funzione che stampa lo stato dell'inventario dell'eroe
+ * @param Inventario* inventario da stampare
+*/
+void stampa_inventario(Inventario* i);
+
+/**
  * Funzione che crea un eroe
  * @return Eroe* puntatore all'eroe
 */
 Eroe* crea_eroe();
+
+/**
+ * Funzione che stampa a video lo stato dell'eroe
+ * @param Eroe* eroe di cui stampare lo stato
+*/
+void stampa_stato(Eroe* e);
 
 /**
  * Funzione che permette ad un eroe di cambiare una stanza
