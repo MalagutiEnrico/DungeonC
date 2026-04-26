@@ -19,9 +19,9 @@ void stampa_inventario(Inventario* i) {
         return;
     }
     Oggetto* current = i->next;
-    printf("Oggetti presenti nell'inventario ");
-    while(current != NULL){
-        switch(current->tipo){
+    printf("Oggetti presenti nell'inventario: ");
+    while(current != NULL){                                                                 //scorri ogni oggetto nell'inventario
+        switch(current->tipo){                                                              //output in base al tipo
             case POZIONE:
                 printf("Pozione con cura %d\n", current->val);
                 break;
@@ -35,7 +35,7 @@ void stampa_inventario(Inventario* i) {
                 printf("Questa chiave sblocca una porta %d\n", current->val);
                 break;
             case TORCIA:
-                printf("Questa torcia ti permette di vedere al buio\n",current->val);
+                printf("Questa torcia ti permette di vedere al buio\n");
                 break;
         }
         current = current->next;
@@ -45,13 +45,13 @@ void stampa_inventario(Inventario* i) {
 Eroe* crea_eroe(){
     Eroe* e = (Eroe*)malloc(sizeof(Eroe));
     controlla_allocazione(e);
-    e->HP = MAX_SALUTE;
+    e->HP = MAX_SALUTE;                             //inizializza i valori dell'eroe
     e->XP = 0;
     e->inventario = crea_inventario();
     e->mappa = crea_mappa();
-    StanzaSalvataggio* s_s = carica_stanza(1);
-    e->stanza_corrente = converti_stanza(s_s);
-    e->mappa->inizio = e->stanza_corrente;
+    StanzaSalvataggio* s_s = carica_stanza(1);      //carica la stanza numero 1, quella in cui inizia il gioco
+    e->stanza_corrente = converti_stanza(s_s);      //e convertila in una stanza adatta al videogioco
+    e->mappa->inizio = e->stanza_corrente;          //infine impostala come stanza corrente dell'eroe
     return e;
 }
 
@@ -70,7 +70,7 @@ void cambia_stanza(Eroe* e, char* direzione){
     Stanza* s = NULL;
     Stanza* stanza_corrente = e->stanza_corrente;
     if(!strcmp(direzione, "nor")){                       //in base alla direzione collega le stanza
-        numero_stanza = stanza_corrente->numero_nord;
+        numero_stanza = stanza_corrente->numero_nord;    //imposta il numero della stanza successiva
     }
     else if(!strcmp(direzione, "est")){
         numero_stanza = stanza_corrente->numero_est;
@@ -81,17 +81,17 @@ void cambia_stanza(Eroe* e, char* direzione){
     else if(!strcmp(direzione, "ove")){
         numero_stanza = stanza_corrente->numero_ovest;
     }
-    if(numero_stanza == -1){
-        printf("In questa direzio è presente un muro. Cambia direzione oppure usa una torcia per vedere dove andare\n");
+    if(numero_stanza == -1){                            //in caso sia uguale a -1 vuole dire che la stanza non è accessibile
+        printf("In questa direzione è presente un muro. Cambia direzione oppure usa una torcia per vedere dove andare\n");
     }
-    else if(trova_stanza(e->mappa, numero_stanza)){                          //se trova la stanza, allora la collega
+    else if(trova_stanza(e->mappa, numero_stanza)){     //se trova la stanza in quelle già caricate, allora la collega alla stanza di provenienza
         s = e->mappa->inizio;
         while(s->ID != numero_stanza)
             s = s->next;
         e->stanza_corrente = s;
     }
-    else{                                                               //altrimenti la deve creare
-        e->stanza_corrente = crea_stanza(e->stanza_corrente, direzione);                                                          //altrimenti la imposta come stanza corrente
+    else{                                               //altrimenti la deve creare, caricandola dal file
+        e->stanza_corrente = crea_stanza(e->stanza_corrente, direzione);
     }
 }
 
@@ -111,18 +111,18 @@ TipoOggetto tipo_oggetto(char input){
 }
 
 void prendi_oggetto(Eroe* e, TipoOggetto tipo){
-    Oggetto* o = (Oggetto*)malloc(sizeof(Oggetto));
+    Oggetto* o = (Oggetto*)malloc(sizeof(Oggetto));                             //crea l'oggetto
     controlla_allocazione(o);
     o->tipo = tipo;
     o->next = NULL;
-    if(e->inventario->len == MAX_INVENTARIO){
+    if(e->inventario->len == MAX_INVENTARIO){                                   //in caso l'inventario sia già pieno, non metterlo dentro
         printf("Inventario pieno. Usa qualche oggetto per liberare spazio\n");
     }
     else{
-        if(e->inventario->len == 0){
+        if(e->inventario->len == 0){                                            //caso in cui l'inventario sia vuoto
             e->inventario->next = o;
         }
-        else{
+        else{                                                                   //caso in cui fosse già presente qualche altro oggetto
             Oggetto* tmp = e->inventario->next;
             while(tmp->next != NULL)
                 tmp = tmp->next;

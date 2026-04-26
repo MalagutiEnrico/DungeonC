@@ -46,7 +46,7 @@ Mostro* crea_mostro(TipoMostro m);
  * Funzione che crea una stanza nella direzione di provenienza dell'eroe
  * @param Stanza* provenienza stanza di provenienza dell'eroe
  * @param char* direzione di provenienza del giocatore
- * @return Stanza* puntatore alla stanza appena creata; ritorna a NULL se la direzione non è valida
+ * @return Stanza* puntatore alla stanza appena creata;
 */
 Stanza* crea_stanza(Stanza* provenienza, char* direzione);
 

@@ -5,11 +5,11 @@
 #include "../include/mappa.h"
 
 Bool trova_stanza(Mappa* stanze, int numero_stanza){
-    if(numero_stanza == -1)
+    if(numero_stanza == -1)                                     //stanza non presente
         return false;
     Stanza* current = stanze->inizio;
-    while(current != NULL){
-        if(current->ID == numero_stanza){
+    while(current != NULL){                                     //scorri ogni stanza della lista
+        if(current->ID == numero_stanza){                       //se la trova ritorna a true
             return true;
         }
         current = current->next;
@@ -20,15 +20,15 @@ Bool trova_stanza(Mappa* stanze, int numero_stanza){
 StanzaSalvataggio* carica_stanza(int numero_stanza){
     FILE* f = fopen("mappa.map", "rb");
     controlla_allocazione(f);
-    StanzaSalvataggio* s = (StanzaSalvataggio*)malloc(sizeof(StanzaSalvataggio));
+    StanzaSalvataggio* s = (StanzaSalvataggio*)malloc(sizeof(StanzaSalvataggio)); //crea lo spazio di memoria per la stanza da leggere dal file
     controlla_allocazione(s);
     long int offset = sizeof(int) + numero_stanza * sizeof(StanzaSalvataggio);    //sizeof dettato dal numero delle stanze + le stanze effettive
-    if(fseek(f, offset, SEEK_SET) != 0){
-        fclose(f);
+    if(fseek(f, offset, SEEK_SET) != 0){                                          //sposta il cursore nella posizione dettata dall'offset
+        fclose(f);                                                                //in caso non vada a buon fine chiudi i file e ritorna a NULL
         free(s);
         return NULL;
     }
-    fread(s, sizeof(StanzaSalvataggio), 1, f);
+    fread(s, sizeof(StanzaSalvataggio), 1, f);                                    //salva la stanza nella struct
     fclose(f);
     return s;
 }
@@ -36,8 +36,8 @@ StanzaSalvataggio* carica_stanza(int numero_stanza){
 Stanza* converti_stanza(StanzaSalvataggio* s_s){
     Stanza* s = (Stanza*)malloc(sizeof(Stanza));        //alloca lo spazio per una stanza
     controlla_allocazione(s);
-    s->ID = s_s->ID;
-    s->numero_nord = s_s->nord;                                //copia i valori dei puntatori
+    s->ID = s_s->ID;                                    //copia i valori della stanza dal salvataggio in quella gestibile nel gioco
+    s->numero_nord = s_s->nord;
     s->numero_est = s_s->est;
     s->numero_sud = s_s->sud;
     s->numero_ovest = s_s->ovest;
@@ -58,7 +58,7 @@ Oggetto* crea_oggetto(TipoOggetto o){
     Oggetto* ogg = (Oggetto*)malloc(sizeof(Oggetto));
     controlla_allocazione(ogg);
     ogg->tipo = o;
-    switch(o){
+    switch(o){                                          //in base al tipo di oggetto avrà un valore diverso.
         case POZIONE:
             //potere curativo della pozione
             break;
@@ -82,7 +82,7 @@ Mostro* crea_mostro(TipoMostro m){
     controlla_allocazione(mostro);
     mostro->tipo = m;
     mostro->next = NULL;
-    switch(m){
+    switch(m){                                          //in base al tipo di mostro, avrà delle statistiche diverse
         case SCHELETRO:
             mostro->HP = 10;
             break;
@@ -105,10 +105,10 @@ Mostro* crea_mostro(TipoMostro m){
 Stanza* crea_stanza(Stanza* provenienza, char* direzione){
     StanzaSalvataggio* s_s = NULL;
     Stanza* s = NULL;
-    if(!strcmp(direzione, "nor")){                       //in base alla direzione collega le stanza                                          //la stanza esiste
-        s_s = carica_stanza(provenienza->nord);               //carica la struttura da file
-        s = converti_stanza(s_s);                   //la converte in una stanza del gioco
-        provenienza->nord = s;                      //imposta i collegamenti con la stanza di provenienza
+    if(!strcmp(direzione, "nor")){                          //in base alla direzione collega le stanza                                          //la stanza esiste
+        s_s = carica_stanza(provenienza->nord);             //carica la struttura da file
+        s = converti_stanza(s_s);                           //la converte in una stanza del gioco
+        provenienza->nord = s;                              //imposta i collegamenti con la stanza di provenienza
         s->sud = provenienza;
     }
     else if(!strcmp(direzione, "est")){
@@ -140,8 +140,8 @@ void elimina_mappa(Mappa* p){
     while(s != NULL){
         Stanza* tmp = s;
         s = s->next;
-        free(tmp->oggetto);                                      //libera la memoria della lista di oggetti 
-        free(tmp->mostro);                                        //libera la memoria della lista di mostri                                       //libera la memoria del puntatore alla stanza ovest
+        free(tmp->oggetto);                                     //libera la memoria della lista di oggetti 
+        free(tmp->mostro);                                      //libera la memoria della lista di mostri                                       //libera la memoria del puntatore alla stanza ovest
         free(tmp);
     }
     free(p);
