@@ -47,6 +47,8 @@ Eroe* crea_eroe(){
     controlla_allocazione(e);
     e->HP = MAX_SALUTE;                             //inizializza i valori dell'eroe
     e->XP = 0;
+    e->sheld = 0;
+    e->danno = 0;
     e->inventario = crea_inventario();
     e->mappa = crea_mappa();
     StanzaSalvataggio* s_s = carica_stanza(1);      //carica la stanza numero 1, quella in cui inizia il gioco
@@ -159,25 +161,30 @@ void elimina_oggetto(Inventario* i, Oggetto* o){
 }
 
 void usa_oggetto(Eroe* e, Oggetto* o){
-    if(trova_oggetto(e, o->tipo)){
-        switch(o->tipo){
+    Bool usato = true;
+    if(trova_oggetto(e, o->tipo)){                                                  //se trova l'oggetto
+        switch(o->tipo){                                                            //in base al tipo di oggetto
             case POZIONE:
-                //aggiunti punti vita
+                usa_pozione(e, o->val);
+                printf("Pozione utilizzata. Ora hai %d HP\n", e->HP);
                 break;
             case ARMA:
-                //aggiungi punti danno
+                usa_arma(e, o->val);
+                printf("Spada Equipaggiata. Ora hai %d danni base\n", e->danno);
                 break;
             case ARMATURA:
-                //aumenta i punti ferita massimi
+                usa_armatura();
+                printf("Armatura equipaggiata. Ora hai %d punti sheld\n", e->sheld);
                 break;
             case CHIAVE:
-                //sblocca una porta con ID uguale
+                usato = usa_chiave(e, o->val);
                 break;
             case TORCIA:
                 //stampa una descrizione delle porte accessibili dalla stanza
                 break;  
         }
-        elimina_oggetto(e->inventario, o);
+        if(usato)                                                                       //se usato è true, allora lo elimina dalla lista
+            elimina_oggetto(e->inventario, o);
     }
     else{
         printf("Oggetto non presente nell'inventario\n");
@@ -192,6 +199,45 @@ void elimina_inventario(Inventario* i){
         free(tmp);
     }
     free(i);
+}
+
+void usa_pozione(Eroe* e, int val){
+    if((e->HP + val) > MAX_SALUTE)          //se la somma della salute aggiunta supera quella della salute massima, assegna il valore massimo della salute
+        e->HP = MAX_SALUTE;
+    else
+        e->HP = e->HP + val;                //altrimenti aggiungi il valore della pozione
+}
+
+void usa_arma(Eroe* e, int val){
+    e->danno = val;
+}
+
+void usa_armatura(Eroe* e, int val){
+    e->sheld = val;
+}
+
+Bool usa_chiave(Eroe* e, int val){
+    Stanza* s = e->stanza_corrente;             //controlla tra le stanze
+    if(s->numero_nord == -val){                 //in caso il valore della stanza nella direzione sia il negativo del valore della chiave, allora la chiave apre quella porta
+        s->numero_nord = -val;
+        return true;
+    }
+    else if(s->numero_est == -val){
+        s->numero_est = -val;
+        return true;
+    }
+    else if(s->numero_sud == -val){
+        s->numero_sud = -val;
+        return true;
+    }
+    else if(s->numero_ovest == -val){
+        s->numero_ovest = -val;
+        return true;
+    }
+    else{
+        printf("Non è possibile utilizzare la chiave");
+        return false;
+    }
 }
 
 void usa_torcia(Eroe* e){

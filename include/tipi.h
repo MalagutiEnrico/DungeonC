@@ -114,6 +114,8 @@ typedef struct{
 typedef struct{
     int HP;
     int XP;
+    int sheld;
+    int danno;
     Inventario* inventario;
     Stanza* stanza_corrente;
     Mappa* mappa;

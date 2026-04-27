@@ -69,3 +69,38 @@ void elimina_oggetto(Inventario* i, Oggetto* o);
  * 
 */
 void usa_oggetto(Eroe* e, Oggetto* o);
+
+/**
+ * Funzione che utilizza una pozione per curare l'eroe
+ * @param Eroe* eroe da curare
+ * @param int valore curativo della pozione
+*/
+void usa_pozione(Eroe* e, int val);
+
+/**
+ * Funzione che usa un'arma per incrementare i danni minimi dell'eroe
+ * @param Eroe* eroe da incrementare
+ * @param int valore curativo della pozione
+*/
+void usa_arma(Eroe* e, int val);
+
+/**
+ * Funzione che usa un'arma per incrementare i danni minimi dell'eroe
+ * @param Eroe* eroe da incrementare
+ * @param int valore curativo della pozione
+*/
+void usa_armatura(Eroe* e, int val);
+
+/**
+ * Funzione che controlla se è possibile aprire una porta con la chiave
+ * @param Eroe* eroe che vuole aprire la porta
+ * @param val valore della chiave (codice della porta da aprire, ma in negativo (es. porta da aprire numero 7; codice chiave = -7))
+ * @return true se la chiave ha aperto la stanza; false il contrario
+*/
+Bool usa_chiave(Eroe* e, int val);
+
+/**
+ * Funzione che usa una torcia per descrivere la stanza
+ * @param Eroe* eroe che deve visualizzare la stanza
+*/
+void usa_torcia(Eroe* e);
