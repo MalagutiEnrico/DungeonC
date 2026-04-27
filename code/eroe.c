@@ -242,10 +242,43 @@ Bool usa_chiave(Eroe* e, int val){
 
 void usa_torcia(Eroe* e){
     Stanza* s = e->stanza_corrente;
-    if(s->numero_nord == 0)
-        //caso in cui non ci possa andare
-    else if(s->numero_nord < 0)
-        //ci può andare ma serve la chiave
-    else
-        //ci può andare
+    if(s->numero_nord == 0){
+        printf("Nella stanza a nord puoi entrare\n");
+    }
+    else if(s->numero_nord < 0){
+        printf("La stanza nord è bloccata da chiave\n");
+    }
+    else{
+        printf("Nella stanza nord non puoi entrare\n");
+    }
+
+    if(s->numero_sud == 0){
+        printf("Nella stanza a sud puoi entrare\n");
+    }
+    else if(s->numero_sud < 0){
+        printf("La stanza sud è bloccata da chiave\n");
+    }
+    else{
+        printf("Nella stanza sud non puoi entrare\n");
+    }
+
+    if(s->numero_est == 0){
+        printf("Nella stanza a est puoi entrare\n");
+    }
+    else if(s->numero_est < 0){
+        printf("La stanza est è bloccata da chiave\n");
+    }
+    else{
+        printf("Nella stanza est non puoi entrare\n");
+    }
+
+    if(s->numero_ovest == 0){
+        printf("Nella stanza a ovest puoi entrare\n");
+    }
+    else if(s->numero_ovest < 0){
+        printf("La stanza ovest è bloccata da chiave\n");
+    }
+    else{
+        printf("Nella stanza ovest non puoi entrare\n");
+    }
 }
