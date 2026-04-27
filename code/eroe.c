@@ -81,8 +81,11 @@ void cambia_stanza(Eroe* e, char* direzione){
     else if(!strcmp(direzione, "ove")){
         numero_stanza = stanza_corrente->numero_ovest;
     }
-    if(numero_stanza == -1){                            //in caso sia uguale a -1 vuole dire che la stanza non è accessibile
+    if(numero_stanza == 0){                            //in caso sia uguale a 0 vuole dire che la stanza non è accessibile
         printf("In questa direzione è presente un muro. Cambia direzione oppure usa una torcia per vedere dove andare\n");
+    }
+    else if(numero_stanza < 0){                         //caso stanza protetta da chiave
+        printf("Per entrare in questa stanza serve una chiave\n");
     }
     else if(trova_stanza(e->mappa, numero_stanza)){     //se trova la stanza in quelle già caricate, allora la collega alla stanza di provenienza
         s = e->mappa->inizio;
@@ -130,4 +133,73 @@ void prendi_oggetto(Eroe* e, TipoOggetto tipo){
         }
         e->inventario->len++;
     }
+}
+
+Bool trova_oggetto(Eroe* e, TipoOggetto o){
+    Oggetto* tmp = e->inventario->next;
+    while(tmp != NULL){
+        if(tmp->tipo == o)
+            return true;
+    }
+    return false;
+}
+
+void elimina_oggetto(Inventario* i, Oggetto* o){
+    Oggetto* current = i->next;
+    while(current != NULL){
+        if(current->tipo == o->tipo){
+            Oggetto* tmp = current->next;
+            current->next = current->next->next;
+            free(tmp);
+            i->len--;
+            return;
+        }
+        current = current->next;
+    }
+}
+
+void usa_oggetto(Eroe* e, Oggetto* o){
+    if(trova_oggetto(e, o->tipo)){
+        switch(o->tipo){
+            case POZIONE:
+                //aggiunti punti vita
+                break;
+            case ARMA:
+                //aggiungi punti danno
+                break;
+            case ARMATURA:
+                //aumenta i punti ferita massimi
+                break;
+            case CHIAVE:
+                //sblocca una porta con ID uguale
+                break;
+            case TORCIA:
+                //stampa una descrizione delle porte accessibili dalla stanza
+                break;  
+        }
+        elimina_oggetto(e->inventario, o);
+    }
+    else{
+        printf("Oggetto non presente nell'inventario\n");
+    }
+}
+
+void elimina_inventario(Inventario* i){
+    Oggetto* o = i->next;
+    while(o != NULL){
+        Oggetto* tmp = o;
+        o = o->next;
+        free(tmp);
+    }
+    free(i);
+}
+
+void usa_torcia(Eroe* e){
+    Stanza* s = e->stanza_corrente;
+    if(s->numero_nord == 0)
+        //caso in cui non ci possa andare
+    else if(s->numero_nord < 0)
+        //ci può andare ma serve la chiave
+    else
+        //ci può andare
 }

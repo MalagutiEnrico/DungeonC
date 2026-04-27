@@ -4,6 +4,22 @@
 #include "../include/tipi.h"
 
 /**
+ * Funzione che stampa la lista dei comandi disponibili
+*/
+void help(){
+    printf("LISTA COMANDI:\n");
+    printf("VAI <direzione>:\tcomando che ti fa andare in una stanza\n");
+    printf("GUARDA:\tcomando che ti stampa cosa c'è nella stanza\n");
+    printf("PRENDI <oggetto>:\tcomando che ti prende un oggetto\n");
+    printf("USA <oggetto>:\tcomando che ti fa usare un oggetto\n");
+    printf("ATTACCA <mostro>:\tcomando che ti fa attaccare\n");
+    printf("INVENTARIO:\t comando che ti mostra l'inventario\n");
+    printf("SALVA:\tcomando che ti fa i dari del gioco\n");
+    printf("CARICA:\tcomando che ti carica i dati della partita\n");
+    printf("MAPPA:\tcomando che ti mostra la mappa\n");
+}
+
+/**
  * Funzione che prende l'input inserito dall'utente e lo converte in un comando
  * @param char* stringa del comando dell'utente
  * @return TipoComando tipo del comando inserito dall'utente

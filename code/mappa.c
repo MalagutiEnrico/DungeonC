@@ -5,7 +5,7 @@
 #include "../include/mappa.h"
 
 Bool trova_stanza(Mappa* stanze, int numero_stanza){
-    if(numero_stanza == -1)                                     //stanza non presente
+    if(numero_stanza == 0)                                     //stanza non presente
         return false;
     Stanza* current = stanze->inizio;
     while(current != NULL){                                     //scorri ogni stanza della lista

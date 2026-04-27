@@ -46,3 +46,26 @@ TipoOggetto tipo_oggetto(char input);
  * @param TipoOggetto tipo dell'oggetto da aggiungere
 */
 void prendi_oggetto(Eroe* e, TipoOggetto tipo);
+
+/**
+ * Funzione che controlla se è presente un oggetto nell'inventario dell'eroe
+ * @param Eroe* eroe in cui controllare l'oggetto
+ * @param TipoOggetto tipo dell'oggetto da controllare
+ * @return true se lo trova
+*/
+Bool trova_oggetto(Eroe* e, TipoOggetto o);
+
+/**
+ * Funzione che elimina un oggetto dall'inventario
+ * @param Inventario* inventario da cui eliminare l'oggetto
+ * @param Oggetto* oggetto da eliminare
+*/
+void elimina_oggetto(Inventario* i, Oggetto* o);
+
+/**
+ * Funzione che permette all'eroe di usare un oggetto
+ * @param Eroe* eroe che vuole utilizzare l'oggetto
+ * @param Oggetto* oggetto da utilizzare
+ * 
+*/
+void usa_oggetto(Eroe* e, Oggetto* o);
