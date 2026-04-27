@@ -58,9 +58,9 @@ Eroe* crea_eroe(){
 }
 
 void stampa_stato(Eroe* e){
-    printf("\033[31m HP:%D \033[0m\n", eroe->HP);
+    printf("\033[31m HP:%d \033[0m\n", e->HP);
     printf("||");
-    printf("\033[33mXP:%d\033[0m\n", eroe->XP);
+    printf("\033[33mXP:%d\033[0m\n", e->XP);
     printf("||");
     printf("");
     printf("||");
@@ -100,7 +100,7 @@ void cambia_stanza(Eroe* e, char* direzione){
     }
 }
 
-TipoOggetto tipo_oggetto(char input){
+TipoOggetto tipo_oggetto(char* input){
     if(strcmp(input, "pozione") == 0)
         return POZIONE;
     else if(strcmp(input, "arma") == 0)
@@ -116,14 +116,14 @@ TipoOggetto tipo_oggetto(char input){
 }
 
 void prendi_oggetto(Eroe* e, TipoOggetto tipo){
-    Oggetto* o = (Oggetto*)malloc(sizeof(Oggetto));                             //crea l'oggetto
-    controlla_allocazione(o);
-    o->tipo = tipo;
-    o->next = NULL;
     if(e->inventario->len == MAX_INVENTARIO){                                   //in caso l'inventario sia già pieno, non metterlo dentro
         printf("Inventario pieno. Usa qualche oggetto per liberare spazio\n");
     }
     else{
+        Oggetto* o = (Oggetto*)malloc(sizeof(Oggetto));                             //crea l'oggetto
+        controlla_allocazione(o);
+        o->tipo = tipo;
+        o->next = NULL;
         if(e->inventario->len == 0){                                            //caso in cui l'inventario sia vuoto
             e->inventario->next = o;
         }
@@ -142,11 +142,19 @@ Bool trova_oggetto(Eroe* e, TipoOggetto o){
     while(tmp != NULL){
         if(tmp->tipo == o)
             return true;
+        tmp = tmp->next;
     }
     return false;
 }
 
 void elimina_oggetto(Inventario* i, Oggetto* o){
+    if(i->next->tipo == o->tipo){
+        Oggetto* tmp = i->next;
+        i->next = i->next->next;
+        free(tmp);
+        i->len--;
+        return;
+    }
     Oggetto* current = i->next;
     while(current != NULL){
         if(current->tipo == o->tipo){
@@ -173,7 +181,7 @@ void usa_oggetto(Eroe* e, Oggetto* o){
                 printf("Spada Equipaggiata. Ora hai %d danni base\n", e->danno);
                 break;
             case ARMATURA:
-                usa_armatura();
+                usa_armatura(e, o->val);
                 printf("Armatura equipaggiata. Ora hai %d punti sheld\n", e->sheld);
                 break;
             case CHIAVE:
@@ -219,19 +227,19 @@ void usa_armatura(Eroe* e, int val){
 Bool usa_chiave(Eroe* e, int val){
     Stanza* s = e->stanza_corrente;             //controlla tra le stanze
     if(s->numero_nord == -val){                 //in caso il valore della stanza nella direzione sia il negativo del valore della chiave, allora la chiave apre quella porta
-        s->numero_nord = -val;
+        s->numero_nord = val;
         return true;
     }
     else if(s->numero_est == -val){
-        s->numero_est = -val;
+        s->numero_est = val;
         return true;
     }
     else if(s->numero_sud == -val){
-        s->numero_sud = -val;
+        s->numero_sud = val;
         return true;
     }
     else if(s->numero_ovest == -val){
-        s->numero_ovest = -val;
+        s->numero_ovest = val;
         return true;
     }
     else{

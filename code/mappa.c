@@ -106,25 +106,25 @@ Stanza* crea_stanza(Stanza* provenienza, char* direzione){
     StanzaSalvataggio* s_s = NULL;
     Stanza* s = NULL;
     if(!strcmp(direzione, "nor")){                          //in base alla direzione collega le stanza                                          //la stanza esiste
-        s_s = carica_stanza(provenienza->nord);             //carica la struttura da file
+        s_s = carica_stanza(provenienza->numero_nord);             //carica la struttura da file
         s = converti_stanza(s_s);                           //la converte in una stanza del gioco
         provenienza->nord = s;                              //imposta i collegamenti con la stanza di provenienza
         s->sud = provenienza;
     }
     else if(!strcmp(direzione, "est")){
-        s_s = carica_stanza(provenienza->est);
+        s_s = carica_stanza(provenienza->numero_est);
         s = converti_stanza(s_s);
         provenienza->est = s;
         s->ovest = provenienza;
     }
     else if(!strcmp(direzione, "sud")){
-        s_s = carica_stanza(provenienza->sud);
+        s_s = carica_stanza(provenienza->numero_sud);
         s = converti_stanza(s_s);
         provenienza->sud = s;
         s->nord = provenienza;
     }
     else if(!strcmp(direzione, "ove")){
-        s_s = carica_stanza(provenienza->ovest);
+        s_s = carica_stanza(provenienza->numero_ovest);
         s = converti_stanza(s_s);
         provenienza->ovest = s;
         s->est = provenienza;

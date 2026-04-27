@@ -1,4 +1,6 @@
 /*Libreria contenente la definizione dei tipi e delle costanti del gioco*/
+#ifndef TIPI_H
+#define TIPI_H
 
 #define MAX_INVENTARIO 8        //numero di oggetti massimi nell'inventario
 #define MAX_DIMINPUT 100        //numero massimo di caratteri inseribili in fase di input
@@ -17,8 +19,7 @@ typedef enum{
     ARMA,
     ARMATURA, 
     CHIAVE,
-    TORCIA,
-    NUM_OGGETTI
+    TORCIA
 }TipoOggetto;
 
 //Definizione dei tipi di mostro incontrabili nel gioco
@@ -26,8 +27,7 @@ typedef enum{
     SCHELETRO,
     GOBLIN,
     DRAGO,
-    BOSS,
-    NUM_MOSTRI
+    BOSS
 }TipoMostro;
 
 //Definizione dei tipi di comando inseribili nel gioco
@@ -126,3 +126,5 @@ typedef struct{
  * @param void* puntatore da controllare
 */
 void controlla_allocazione(void* ptr);
+
+#endif

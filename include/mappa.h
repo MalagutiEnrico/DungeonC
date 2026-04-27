@@ -1,4 +1,6 @@
 /*Libreria per la gestione della mappa del gioco*/
+#ifndef MAPPA_H
+#define MAPPA_H
 #include "tipi.h"
 
 /**
@@ -55,3 +57,5 @@ Stanza* crea_stanza(Stanza* provenienza, char* direzione);
  * @param Mappa* mappa da eliminare
 */
 void elimina_mappa(Mappa* p);
+
+#endif

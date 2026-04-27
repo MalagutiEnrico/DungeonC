@@ -1,4 +1,6 @@
 /*Libreria per la gestione dell'eroe nel gioco*/
+#ifndef EROE_H
+#define EROE_H
 #include "tipi.h"
 
 /**
@@ -38,7 +40,7 @@ void cambia_stanza(Eroe* e, char* direzione);
  * @param char* input dell'utente
  * @return TipoOggetto tipo dell'oggetto selezionato
 */
-TipoOggetto tipo_oggetto(char input);
+TipoOggetto tipo_oggetto(char* input);
 
 /**
  * Funzione che aggiunge un oggetto all'inventario dell'utente
@@ -104,3 +106,5 @@ Bool usa_chiave(Eroe* e, int val);
  * @param Eroe* eroe che deve visualizzare la stanza
 */
 void usa_torcia(Eroe* e);
+
+#endif
