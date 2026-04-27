@@ -83,10 +83,10 @@ void cambia_stanza(Eroe* e, char* direzione){
     else if(!strcmp(direzione, "ove")){
         numero_stanza = stanza_corrente->numero_ovest;
     }
-    if(numero_stanza == 0){                            //in caso sia uguale a 0 vuole dire che la stanza non è accessibile
+    if(numero_stanza == -1){                            //in caso sia uguale a 0 vuole dire che la stanza non è accessibile
         printf("In questa direzione è presente un muro. Cambia direzione oppure usa una torcia per vedere dove andare\n");
     }
-    else if(numero_stanza < 0){                         //caso stanza protetta da chiave
+    else if(numero_stanza < -1){                         //caso stanza protetta da chiave
         printf("Per entrare in questa stanza serve una chiave\n");
     }
     else if(trova_stanza(e->mappa, numero_stanza)){     //se trova la stanza in quelle già caricate, allora la collega alla stanza di provenienza
