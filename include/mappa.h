@@ -34,9 +34,10 @@ Mappa* crea_mappa();
 /**
  * Funzione che crea un oggetto e lo inserisce nella stanza
  * @param TipoOggetto* tipo dell'oggetto da creare
+ * @param int valore dell'oggetto presente nella stanza
  * @return Oggetto* puntatore all'oggetto creato
 */
-Oggetto* crea_oggetto(TipoOggetto o);
+Oggetto* crea_oggetto(TipoOggetto o, int val);
 
 /**
  * Funzione che mette un mostro in una stanza

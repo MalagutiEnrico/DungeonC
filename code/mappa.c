@@ -54,30 +54,19 @@ Mappa* crea_mappa(){
     return m;
 }
 
-Oggetto* crea_oggetto(TipoOggetto o){
+Oggetto* crea_oggetto(TipoOggetto o, int val){
+    if(o == NO_OGGETTO)
+        return NULL;
     Oggetto* ogg = (Oggetto*)malloc(sizeof(Oggetto));
     controlla_allocazione(ogg);
     ogg->tipo = o;
-    switch(o){                                          //in base al tipo di oggetto avrà un valore diverso.
-        case POZIONE:
-            //potere curativo della pozione
-            break;
-        case ARMA:
-            //punti danno dell'arma
-            break;
-        case ARMATURA:
-            //punti danno aggiunti dall'armatura
-            break;
-        case CHIAVE:
-            //numero della porta
-            break;
-        default:
-            return NULL;
-    }
+    ogg->val = val;
     return ogg;
 }
 
 Mostro* crea_mostro(TipoMostro m){
+    if(m == NO_MOSTRO)
+        return NULL;
     Mostro* mostro = (Mostro*)malloc(sizeof(Mostro));
     controlla_allocazione(mostro);
     mostro->tipo = m;
@@ -85,19 +74,26 @@ Mostro* crea_mostro(TipoMostro m){
     switch(m){                                          //in base al tipo di mostro, avrà delle statistiche diverse
         case SCHELETRO:
             mostro->HP = 10;
+            mostro->danno = 5;
+            mostro->XP = 10;
             break;
         case GOBLIN:
             mostro->HP = 15;
+            mostro->danno = 10;
+            mostro->XP = 15;
             break;
         case DRAGO:
             mostro->HP = 40;
+            mostro->danno = 20;
+            mostro->XP = 50;
             break;
         case BOSS:
             mostro->HP = 80;
+            mostro->danno = 35;
+            mostro->XP = 100;
             break;
         default:
             return NULL;
-            break;
     }
     return mostro;
 }

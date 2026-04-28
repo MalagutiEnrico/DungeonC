@@ -15,6 +15,7 @@ typedef enum{
 
 //Definizione dei tipi di oggetto presenti nelle stanze e nell'inventario
 typedef enum{
+    NO_OGGETTO,
     POZIONE,
     ARMA,
     ARMATURA, 
@@ -24,6 +25,7 @@ typedef enum{
 
 //Definizione dei tipi di mostro incontrabili nel gioco
 typedef enum{
+    NO_MOSTRO,
     SCHELETRO,
     GOBLIN,
     DRAGO,
@@ -61,6 +63,8 @@ typedef struct{
 typedef struct Mostro{
     TipoMostro tipo;
     int HP;
+    int XP;
+    int danno;
     struct Mostro* next;
 }Mostro;
 
@@ -120,11 +124,5 @@ typedef struct{
     Stanza* stanza_corrente;
     Mappa* mappa;
 }Eroe;
-
-/**
- * Funzione che controlla l'esito dell'allocazione di uno spazio di memoria. In caso sia fallito esce dal programma
- * @param void* puntatore da controllare
-*/
-void controlla_allocazione(void* ptr);
 
 #endif
