@@ -83,6 +83,7 @@ typedef struct{
     int ovest;
     TipoOggetto tipo_oggetto;
     TipoMostro tipo_mostro;
+    int valore_oggetto;
 }StanzaSalvataggio;
 
 //Definizione della struct stanza
@@ -101,6 +102,7 @@ typedef struct Stanza{
     int numero_sud;
     int numero_est;
     int numero_ovest;
+    int valore_oggetto;
 }Stanza;
 
 typedef struct{

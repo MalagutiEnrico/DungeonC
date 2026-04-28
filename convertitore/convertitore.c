@@ -14,6 +14,7 @@ sud
 ovest
 tipo_mostro             numero del tipo di mostro che è presente nella stanza
 tipo_oggetto            numero del tipo di oggetto che è presente nella stanza
+valore                  valore dell'oggetto presente nella stanza.
 
 Esempio di mappa
 
@@ -23,7 +24,7 @@ Esempio di mappa
         Stanza 3    <-      Stanza 1        ->    Stanza 2
                       (no mostri o oggetti)
 La riga nel file.txt della stanza 1 sarà la seguente:
-1 4 2 -1 3 -1 -1 
+1 4 2 -1 3 0 0 0 
 */
 #include <stdio.h>
 #include <stdlib.h>
@@ -45,7 +46,7 @@ int main(){
     }
     fscanf(f_txt, "%d", &num_stanze);
     for(int i=0; i<num_stanze; i++){
-        if(fscanf(f_txt, "%d %d %d %d %d %d %d", &s->ID, &s->nord, &s->est, &s->sud, &s->ovest, &s->tipo_mostro, &s->tipo_oggetto) != 7){
+        if(fscanf(f_txt, "%d %d %d %d %d %d %d", &s->ID, &s->nord, &s->est, &s->sud, &s->ovest, &s->tipo_mostro, &s->tipo_oggetto, &s->valore_oggetto) != 8){
             printf("Errore nella lettura di una riga del file, in particolare la riga numero %d\n", i);
             fclose(f_txt);
             fclose(f_map);
