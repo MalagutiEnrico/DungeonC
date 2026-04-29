@@ -1,6 +1,9 @@
 /*Libreria per la gestione del combattimento nel gioco*/
 #ifndef COMBATTIMENTO_H
 #define COMBATTIMENTO_H
+include "tipi.h"
+#include "eroe.h"
+#include "mostro.h"
 
 /**
  * Funzione che calcola l'attacco di un mostro

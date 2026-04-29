@@ -17,12 +17,14 @@ int attacco_eroe(Eroe* e){
 Bool combattimento(Eroe* e, Mostro* m){
     int danno_mostro, danno_eroe, turni=1;
     printf("===========COMBATTIMENTO INIZIATO============\n");
-    while(e->HP > 0 || m->HP > 0){              //ciclo loop, finchè una delle due vite è maggiore di 0
+    while(e->HP > 0 && m->HP > 0){              //ciclo loop, finchè una delle due vite è maggiore di 0
         printf("=====TURNO NUMERO %d=====\n", turni);
+        danno_mostro = attacco_mostro(m);
+        danno_eroe = attacco_eroe(e);
         if(e->sheld - danno_mostro >= 0)
             e->sheld -= danno_mostro;
-        else if(e->sheld - danno_mostro < 0){   //caso in cui il danno risulta maggiore dello scudo dell'eroe
-            e->HP = e->HP - (danno_mostro + e->sheld);
+        else if(e->sheld - danno_mostro < 0 && e->sheld > 0){   //caso in cui il danno risulta maggiore dello scudo dell'eroe
+            e->HP = e->HP - (danno_mostro - e->sheld);
             e->sheld = 0;
         }
         else
@@ -39,7 +41,11 @@ Bool combattimento(Eroe* e, Mostro* m){
         else if(m->HP <= 0){
             printf("Hai sconfitto il mostro.\nHai guadagnato %d punti XP\n", m->XP);
             e->XP += m->XP;
+            e->stanza_corrente->tipo_mostro = NO_MOSTRO;
+            free(e->stanza_corrente->mostro);
+            e->stanza_corrente->mostro = NULL;
             return true;
         }
     }
+    return false;
 }

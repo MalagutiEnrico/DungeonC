@@ -191,8 +191,12 @@ void usa_oggetto(Eroe* e, Oggetto* o){
                 //stampa una descrizione delle porte accessibili dalla stanza
                 break;  
         }
-        if(usato)                                                                       //se usato è true, allora lo elimina dalla lista
+        if(usato){                                                                       //se usato è true, allora lo elimina dalla lista
             elimina_oggetto(e->inventario, o);
+            e->stanza_corrente->tipo_oggetto = NO_OGGETTO;
+            free(e->stanza_corrente->oggetto);
+            e->stanza_corrente->oggetto = NULL;
+        }
     }
     else{
         printf("Oggetto non presente nell'inventario\n");
