@@ -32,7 +32,7 @@ Stanza* converti_stanza(StanzaSalvataggio* s_s);
 Mappa* crea_mappa();
 
 /**
- * Funzione che crea un oggetto e lo inserisce nella stanza
+ * Funzione che crea un oggetto
  * @param TipoOggetto* tipo dell'oggetto da creare
  * @param int valore dell'oggetto presente nella stanza
  * @return Oggetto* puntatore all'oggetto creato
@@ -40,7 +40,7 @@ Mappa* crea_mappa();
 Oggetto* crea_oggetto(TipoOggetto o, int val);
 
 /**
- * Funzione che mette un mostro in una stanza
+ * Funzione che crea un mostro
  * @param TipoMostro* tipo del mostro da creare
  * @return Mostro* puntatore al mostro creato
 */

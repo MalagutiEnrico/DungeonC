@@ -43,7 +43,8 @@ typedef enum{
     SALVA,
     CARICA,
     MAPPA,
-    HELP
+    HELP,
+    INVALIDO
 }TipoComando;
 
 //Definizione della struct oggetto come nodo

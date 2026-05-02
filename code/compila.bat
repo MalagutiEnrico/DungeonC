@@ -1,0 +1,1 @@
+gcc main.c eroe.c mappa.c combattimento.c utilities.c -o gioco

@@ -46,7 +46,7 @@ int main(){
     }
     fscanf(f_txt, "%d", &num_stanze);
     for(int i=0; i<num_stanze; i++){
-        if(fscanf(f_txt, "%d %d %d %d %d %d %d", &s->ID, &s->nord, &s->est, &s->sud, &s->ovest, &s->tipo_mostro, &s->tipo_oggetto, &s->valore_oggetto) != 8){
+        if(fscanf(f_txt, "%d %d %d %d %d %d %d %d", &s->ID, &s->nord, &s->est, &s->sud, &s->ovest, &s->tipo_mostro, &s->tipo_oggetto, &s->valore_oggetto) != 8){
             printf("Errore nella lettura di una riga del file, in particolare la riga numero %d\n", i);
             fclose(f_txt);
             fclose(f_map);

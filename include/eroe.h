@@ -53,9 +53,9 @@ void prendi_oggetto(Eroe* e, TipoOggetto tipo);
  * Funzione che controlla se è presente un oggetto nell'inventario dell'eroe
  * @param Eroe* eroe in cui controllare l'oggetto
  * @param TipoOggetto tipo dell'oggetto da controllare
- * @return true se lo trova
+ * @return al puntatore dell'oggetto se lo trova; altrimenti a NULL
 */
-Bool trova_oggetto(Eroe* e, TipoOggetto o);
+Oggetto* trova_oggetto(Eroe* e, TipoOggetto o);
 
 /**
  * Funzione che elimina un oggetto dall'inventario
@@ -67,10 +67,9 @@ void elimina_oggetto(Inventario* i, Oggetto* o);
 /**
  * Funzione che permette all'eroe di usare un oggetto
  * @param Eroe* eroe che vuole utilizzare l'oggetto
- * @param Oggetto* oggetto da utilizzare
- * 
+ * @param char* argomento del comando che specifica l'oggetto
 */
-void usa_oggetto(Eroe* e, Oggetto* o);
+void usa_oggetto(Eroe* e, char* argomento);
 
 /**
  * Funzione che utilizza una pozione per curare l'eroe
@@ -106,5 +105,17 @@ Bool usa_chiave(Eroe* e, int val);
  * @param Eroe* eroe che deve visualizzare la stanza
 */
 void usa_torcia(Eroe* e);
+
+/**
+ * Funzione che elimina l'inventario dell'eroe
+ * @param Inventario* inventario da eliminare
+*/
+void elimina_inventario(Inventario* i);
+
+/**
+ * Funzione che elimina un eroe, liberandone la memoria allocata
+ * @param Eroe* da eliminare
+*/
+void elimina_eroe(Eroe* e);
 
 #endif

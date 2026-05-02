@@ -4,6 +4,7 @@
 #include "../include/tipi.h"
 #include "../include/eroe.h"
 #include "../include/mappa.h"
+#include "../include/utilities.h"
 
 Inventario* crea_inventario(){
     Inventario* i = (Inventario*)malloc(sizeof(Inventario));
@@ -101,18 +102,12 @@ void cambia_stanza(Eroe* e, char* direzione){
 }
 
 TipoOggetto tipo_oggetto(char* input){
-    if(strcmp(input, "pozione") == 0)
-        return POZIONE;
-    else if(strcmp(input, "arma") == 0)
-        return ARMA;
-    else if(strcmp(input, "armatura") == 0)
-        return ARMATURA;
-    else if(strcmp(input, "chiave") == 0)
-        return CHIAVE;
-    else if(strcmp(input, "torcia") == 0)
-        return TORCIA;
-    else
-        return -1;
+    if(strcmp(input, "pozione") == 0)           return POZIONE;
+    else if(strcmp(input, "arma") == 0)         return ARMA;
+    else if(strcmp(input, "armatura") == 0)     return ARMATURA;
+    else if(strcmp(input, "chiave") == 0)       return CHIAVE;
+    else if(strcmp(input, "torcia") == 0)       return TORCIA;
+    else                                        return NO_OGGETTO;
 }
 
 void prendi_oggetto(Eroe* e, TipoOggetto tipo){
@@ -137,14 +132,14 @@ void prendi_oggetto(Eroe* e, TipoOggetto tipo){
     }
 }
 
-Bool trova_oggetto(Eroe* e, TipoOggetto o){
+Oggetto* trova_oggetto(Eroe* e, TipoOggetto o){
     Oggetto* tmp = e->inventario->next;
     while(tmp != NULL){
         if(tmp->tipo == o)
-            return true;
+            return tmp;
         tmp = tmp->next;
     }
-    return false;
+    return NULL;
 }
 
 void elimina_oggetto(Inventario* i, Oggetto* o){
@@ -168,10 +163,12 @@ void elimina_oggetto(Inventario* i, Oggetto* o){
     }
 }
 
-void usa_oggetto(Eroe* e, Oggetto* o){
+void usa_oggetto(Eroe* e, char* argomento){
     Bool usato = true;
-    if(trova_oggetto(e, o->tipo)){                                                  //se trova l'oggetto
-        switch(o->tipo){                                                            //in base al tipo di oggetto
+    TipoOggetto tipo = tipo_oggetto(argomento);
+    Oggetto* o = trova_oggetto(e, tipo);
+    if(o != NULL){                                                              //se trova l'oggetto
+        switch(tipo){                                                           //in base al tipo di oggetto
             case POZIONE:
                 usa_pozione(e, o->val);
                 printf("Pozione utilizzata. Ora hai %d HP\n", e->HP);
@@ -190,6 +187,10 @@ void usa_oggetto(Eroe* e, Oggetto* o){
             case TORCIA:
                 //stampa una descrizione delle porte accessibili dalla stanza
                 break;  
+            case NO_OGGETTO:
+                printf("Oggetto specificato non valido\n");
+                usato = false;
+                break;
         }
         if(usato){                                                                       //se usato è true, allora lo elimina dalla lista
             elimina_oggetto(e->inventario, o);
@@ -201,16 +202,6 @@ void usa_oggetto(Eroe* e, Oggetto* o){
     else{
         printf("Oggetto non presente nell'inventario\n");
     }
-}
-
-void elimina_inventario(Inventario* i){
-    Oggetto* o = i->next;
-    while(o != NULL){
-        Oggetto* tmp = o;
-        o = o->next;
-        free(tmp);
-    }
-    free(i);
 }
 
 void usa_pozione(Eroe* e, int val){
@@ -293,4 +284,20 @@ void usa_torcia(Eroe* e){
     else{
         printf("Nella stanza ovest non puoi entrare\n");
     }
+}
+
+void elimina_inventario(Inventario* i){
+    Oggetto* o = i->next;
+    while(o != NULL){
+        Oggetto* tmp = o;
+        o = o->next;
+        free(tmp);
+    }
+    free(i);
+}
+
+void elimina_eroe(Eroe* e){
+    elimina_mappa(e->mappa);
+    elimina_inventario(e->inventario);
+    free(e);
 }

@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include "../include/tipi.h"
 #include "../include/mappa.h"
+#include "../include/utilities.h"
 
 Bool trova_stanza(Mappa* stanze, int numero_stanza){
     if(numero_stanza == -1)                                     //stanza non presente
@@ -18,7 +19,7 @@ Bool trova_stanza(Mappa* stanze, int numero_stanza){
 }
 
 StanzaSalvataggio* carica_stanza(int numero_stanza){
-    FILE* f = fopen("mappa.map", "rb");
+    FILE* f = fopen("../convertitore/mappa.map", "rb");
     controlla_allocazione(f);
     StanzaSalvataggio* s = (StanzaSalvataggio*)malloc(sizeof(StanzaSalvataggio)); //crea lo spazio di memoria per la stanza da leggere dal file
     controlla_allocazione(s);
@@ -127,8 +128,8 @@ Stanza* crea_stanza(Stanza* provenienza, char* direzione){
         s->est = provenienza;
     }
     free(s_s);                                                  //libera la memoria della stanza salvata
-    s->oggetto = crea_oggetto(s->tipo_oggetto);                 //crea l'oggetto di tipo specificato dal file
-    s->mostro = crea_mostro(s->tipo_mostro);                    //crea il mostro ti tipo specificato dal file
+    s->oggetto = crea_oggetto(s->tipo_oggetto, s->valore_oggetto);                  //crea l'oggetto di tipo specificato dal file
+    s->mostro = crea_mostro(s->tipo_mostro);                                        //crea il mostro ti tipo specificato dal file
     return s;
 }
 
