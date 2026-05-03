@@ -9,6 +9,11 @@
 void controlla_allocazione(void* ptr);
 
 /**
+ * Funzione che pulisce il buffer stdin
+*/
+void clear_buffer();
+
+/**
  * Funzione che divide l'input dell'utente in 2 sottostringhe, la prima contentente il comando principale e la seconda l+eventuale argomento
  * @param char* input preso dall'utente
  * @return char** doppio puntatore all'output (il primo contiene il comando, il secondo l'argomento)
@@ -46,5 +51,11 @@ Eroe* carica_partita();
  * @param char* stringa argomento del comando
 */
 void esegui_comando(Eroe* e, TipoComando cmd, char* argomento);
+
+/**
+ * Funzione che stampa l'inizio del gioco e permette di scegliere se caricare una partita o iniziarne una nuova
+ * @return Eroe* puntatore all'eroe creato
+*/
+Eroe* inizio_gioco();
 
 #endif

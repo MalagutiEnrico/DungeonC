@@ -13,6 +13,11 @@ void controlla_allocazione(void* ptr){
     }
 }
 
+void clear_buffer(){
+    char c;
+    while((c = getchar()) && c != '\n'){}
+}
+
 char** dividi_input(char* input){
     char** output = malloc(2 * sizeof(char*));                  //crea il doppio puntatore
     output[0] = malloc(4*sizeof(char));                         //crea la prima stringa
@@ -59,7 +64,7 @@ void help(){
 }
 
 void salva_partita(Eroe* e){
-    FILE* f = fopen("partita.sav", "wb");                                                   //apri il file in modalità binaria
+    FILE* f = fopen("../saves/partita.sav", "wb");                                                   //apri il file in modalità binaria
     controlla_allocazione(f);
     fwrite(&(e->HP), sizeof(e->HP), 1, f);                                                  //scrivi i dati dell'eroe (HP, XP, sheld, danno)
     fwrite(&(e->XP), sizeof(e->XP), 1, f);
@@ -92,7 +97,7 @@ void salva_partita(Eroe* e){
 Eroe* carica_partita(){
     Eroe* e = (Eroe*)malloc(sizeof(Eroe));
     controlla_allocazione(e);
-    FILE* f = fopen("partita.sav", "rb");
+    FILE* f = fopen("../saves/partita.sav", "rb");
     controlla_allocazione(f);
     fread(&(e->HP), sizeof(e->HP), 1, f);
     fread(&(e->XP), sizeof(e->XP), 1, f);
@@ -155,4 +160,28 @@ void esegui_comando(Eroe* e, TipoComando cmd, char* argomento){
             printf("Comando non valido. Digita help per vedere i comandi disponibili\n");
             break;
     }
+}
+
+Eroe* inizio_gioco(){
+    Eroe* e = NULL;
+    char carica;
+    printf("==============================\n");
+    printf("||      DUNGEON C           ||\n");
+    printf("|| GIOCO NEL DUNGEON IN C  ||\n");
+    printf("==============================\n");
+    do{
+        printf("Vuoi caricare una partita salvata? (s/n): ");
+        scanf("%c", &carica);
+        clear_buffer();
+        if(carica != 's' && carica != 'n'){
+            printf("Comando non valido. Digita s o n\n");
+        }
+    } while(carica != 's' && carica != 'n');
+    if(carica == 's'){
+        e = carica_partita();
+    }
+    else{
+        e = crea_eroe();
+    }
+    return e;
 }

@@ -23,7 +23,7 @@ StanzaSalvataggio* carica_stanza(int numero_stanza){
     controlla_allocazione(f);
     StanzaSalvataggio* s = (StanzaSalvataggio*)malloc(sizeof(StanzaSalvataggio)); //crea lo spazio di memoria per la stanza da leggere dal file
     controlla_allocazione(s);
-    long int offset = sizeof(int) + numero_stanza * sizeof(StanzaSalvataggio);    //sizeof dettato dal numero delle stanze + le stanze effettive
+    long offset = (numero_stanza - 1) * sizeof(StanzaSalvataggio);    //sizeof dettato dal numero delle stanze + le stanze effettive
     if(fseek(f, offset, SEEK_SET) != 0){                                          //sposta il cursore nella posizione dettata dall'offset
         fclose(f);                                                                //in caso non vada a buon fine chiudi i file e ritorna a NULL
         free(s);
@@ -103,7 +103,7 @@ Mostro* crea_mostro(TipoMostro m){
 Stanza* crea_stanza(Stanza* provenienza, char* direzione){
     StanzaSalvataggio* s_s = NULL;
     Stanza* s = NULL;
-    if(!strcmp(direzione, "nor")){                          //in base alla direzione collega le stanza                                          //la stanza esiste
+    if(!strcmp(direzione, "nord")){                          //in base alla direzione collega le stanza                                          //la stanza esiste
         s_s = carica_stanza(provenienza->numero_nord);             //carica la struttura da file
         s = converti_stanza(s_s);                           //la converte in una stanza del gioco
         provenienza->nord = s;                              //imposta i collegamenti con la stanza di provenienza
@@ -121,7 +121,7 @@ Stanza* crea_stanza(Stanza* provenienza, char* direzione){
         provenienza->sud = s;
         s->nord = provenienza;
     }
-    else if(!strcmp(direzione, "ove")){
+    else if(!strcmp(direzione, "ovest")){
         s_s = carica_stanza(provenienza->numero_ovest);
         s = converti_stanza(s_s);
         provenienza->ovest = s;

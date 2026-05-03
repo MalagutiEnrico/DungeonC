@@ -6,6 +6,7 @@
 #define MAX_DIMINPUT 100        //numero massimo di caratteri inseribili in fase di input
 #define MAX_SALUTE 100          //valore massimo di salute dell'eroe
 #define MAX_OGGETTI 5           //numero massimo di oggetti in una stanza
+#define STANZA_CARICAMENTO 1   //stanza iniziale del gioco
 
 //Definizione delle variabili booleane
 typedef enum{
@@ -79,8 +80,8 @@ typedef struct{
 typedef struct{
     int ID;
     int nord;
-    int sud;
     int est;
+    int sud;
     int ovest;
     TipoOggetto tipo_oggetto;
     TipoMostro tipo_mostro;

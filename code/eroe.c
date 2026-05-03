@@ -15,12 +15,12 @@ Inventario* crea_inventario(){
 }
 
 void stampa_inventario(Inventario* i) {
-    if (i == NULL) {
+    Oggetto* current = i->next;
+    printf("Oggetti presenti nell'inventario: ");
+    if (current == NULL) {
         printf("Inventario vuoto.\n");
         return;
     }
-    Oggetto* current = i->next;
-    printf("Oggetti presenti nell'inventario: ");
     while(current != NULL){                                                                 //scorri ogni oggetto nell'inventario
         switch(current->tipo){                                                              //output in base al tipo
             case POZIONE:
@@ -52,27 +52,24 @@ Eroe* crea_eroe(){
     e->danno = 0;
     e->inventario = crea_inventario();
     e->mappa = crea_mappa();
-    StanzaSalvataggio* s_s = carica_stanza(1);      //carica la stanza numero 1, quella in cui inizia il gioco
+    StanzaSalvataggio* s_s = carica_stanza(STANZA_CARICAMENTO);      //carica la stanza numero 1, quella in cui inizia il gioco
     e->stanza_corrente = converti_stanza(s_s);      //e convertila in una stanza adatta al videogioco
     e->mappa->inizio = e->stanza_corrente;          //infine impostala come stanza corrente dell'eroe
     return e;
 }
 
 void stampa_stato(Eroe* e){
-    printf("\033[31m HP:%d \033[0m\n", e->HP);
-    printf("||");
-    printf("\033[33mXP:%d\033[0m\n", e->XP);
-    printf("||");
-    printf("");
-    printf("||");
-    printf("");
+    printf("HP: %d\n", e->HP);
+    printf("XP: %d\n", e->XP);
+    printf("Sheld: %d\n", e->sheld);
+    printf("Ti trovi nella stanza %d\n", e->stanza_corrente->ID);
 }
 
 void cambia_stanza(Eroe* e, char* direzione){
     int numero_stanza;
     Stanza* s = NULL;
     Stanza* stanza_corrente = e->stanza_corrente;
-    if(!strcmp(direzione, "nor")){                       //in base alla direzione collega le stanza
+    if(!strcmp(direzione, "nord")){                       //in base alla direzione collega le stanza
         numero_stanza = stanza_corrente->numero_nord;    //imposta il numero della stanza successiva
     }
     else if(!strcmp(direzione, "est")){
@@ -81,9 +78,10 @@ void cambia_stanza(Eroe* e, char* direzione){
     else if(!strcmp(direzione, "sud")){
         numero_stanza = stanza_corrente->numero_sud;
     }
-    else if(!strcmp(direzione, "ove")){
+    else if(!strcmp(direzione, "ovest")){
         numero_stanza = stanza_corrente->numero_ovest;
     }
+    printf("%d\n", numero_stanza);
     if(numero_stanza == -1){                            //in caso sia uguale a 0 vuole dire che la stanza non è accessibile
         printf("In questa direzione è presente un muro. Cambia direzione oppure usa una torcia per vedere dove andare\n");
     }
@@ -92,7 +90,7 @@ void cambia_stanza(Eroe* e, char* direzione){
     }
     else if(trova_stanza(e->mappa, numero_stanza)){     //se trova la stanza in quelle già caricate, allora la collega alla stanza di provenienza
         s = e->mappa->inizio;
-        while(s->ID != numero_stanza)
+        while(s->ID != numero_stanza || s == NULL)
             s = s->next;
         e->stanza_corrente = s;
     }

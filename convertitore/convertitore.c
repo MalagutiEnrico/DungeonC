@@ -52,6 +52,7 @@ int main(){
             fclose(f_map);
             exit(1);
         }
+        printf("%d %d %d %d %d %d %d %d\n", s->ID, s->nord, s->est, s->sud, s->ovest, s->tipo_mostro, s->tipo_oggetto, s->valore_oggetto);
         fwrite(s, sizeof(StanzaSalvataggio), 1, f_map);
     }
     printf("File convertito correttamente\n");
