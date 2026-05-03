@@ -45,6 +45,8 @@ Stanza* converti_stanza(StanzaSalvataggio* s_s){
     s->tipo_oggetto = s_s->tipo_oggetto;
     s->tipo_mostro = s_s->tipo_mostro;
     s->valore_oggetto = s_s->valore_oggetto;
+    s->oggetto = crea_oggetto(s->tipo_oggetto, s->valore_oggetto);
+    s->mostro = crea_mostro(s->tipo_mostro);
     return s;
 }
 

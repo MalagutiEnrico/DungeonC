@@ -55,6 +55,7 @@ Eroe* crea_eroe(){
     StanzaSalvataggio* s_s = carica_stanza(STANZA_CARICAMENTO);      //carica la stanza numero 1, quella in cui inizia il gioco
     e->stanza_corrente = converti_stanza(s_s);      //e convertila in una stanza adatta al videogioco
     e->mappa->inizio = e->stanza_corrente;          //infine impostala come stanza corrente dell'eroe
+    e->stanza_corrente->next = NULL;                //non puntare a niente per evitare cicli infiniti
     return e;
 }
 
@@ -111,6 +112,9 @@ TipoOggetto tipo_oggetto(char* input){
 void prendi_oggetto(Eroe* e, TipoOggetto tipo){
     if(e->inventario->len == MAX_INVENTARIO){                                   //in caso l'inventario sia già pieno, non metterlo dentro
         printf("Inventario pieno. Usa qualche oggetto per liberare spazio\n");
+    }
+    else if(e->stanza_corrente->oggetto == NULL || e->stanza_corrente->oggetto->tipo != tipo){      //se l'oggetto non esiste oppure è un altro tipo di oggetto
+        printf("Oggetto non presente nella stanza\n");
     }
     else{
         Oggetto* o = (Oggetto*)malloc(sizeof(Oggetto));                             //crea l'oggetto
@@ -183,7 +187,7 @@ void usa_oggetto(Eroe* e, char* argomento){
                 usato = usa_chiave(e, o->val);
                 break;
             case TORCIA:
-                //stampa una descrizione delle porte accessibili dalla stanza
+                usa_torcia(e);
                 break;  
             case NO_OGGETTO:
                 printf("Oggetto specificato non valido\n");

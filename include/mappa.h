@@ -45,6 +45,7 @@ Oggetto* crea_oggetto(TipoOggetto o, int val);
  * @return Mostro* puntatore al mostro creato
 */
 Mostro* crea_mostro(TipoMostro m);
+
 /**
  * Funzione che crea una stanza nella direzione di provenienza dell'eroe
  * @param Stanza* provenienza stanza di provenienza dell'eroe
