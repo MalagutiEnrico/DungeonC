@@ -82,6 +82,10 @@ void cambia_stanza(Eroe* e, char* direzione){
     else if(!strcmp(direzione, "ovest")){
         numero_stanza = stanza_corrente->numero_ovest;
     }
+    else{
+        printf("Direzione inserita non valida\n");
+        return;
+    }
     printf("%d\n", numero_stanza);
     if(numero_stanza == -1){                            //in caso sia uguale a 0 vuole dire che la stanza non è accessibile
         printf("In questa direzione è presente un muro. Cambia direzione oppure usa una torcia per vedere dove andare\n");
@@ -97,6 +101,7 @@ void cambia_stanza(Eroe* e, char* direzione){
     }
     else{                                               //altrimenti la deve creare, caricandola dal file
         e->stanza_corrente = crea_stanza(e->stanza_corrente, direzione);
+        e->mappa->numero_stanze++;
     }
 }
 
@@ -120,6 +125,7 @@ void prendi_oggetto(Eroe* e, TipoOggetto tipo){
         Oggetto* o = (Oggetto*)malloc(sizeof(Oggetto));                             //crea l'oggetto
         controlla_allocazione(o);
         o->tipo = tipo;
+        o->val = e->stanza_corrente->valore_oggetto;
         o->next = NULL;
         if(e->inventario->len == 0){                                            //caso in cui l'inventario sia vuoto
             e->inventario->next = o;

@@ -59,8 +59,6 @@ Mappa* crea_mappa(){
 }
 
 Oggetto* crea_oggetto(TipoOggetto o, int val){
-    if(o == NO_OGGETTO)
-        return NULL;
     Oggetto* ogg = (Oggetto*)malloc(sizeof(Oggetto));
     controlla_allocazione(ogg);
     ogg->tipo = o;
@@ -69,8 +67,6 @@ Oggetto* crea_oggetto(TipoOggetto o, int val){
 }
 
 Mostro* crea_mostro(TipoMostro m){
-    if(m == NO_MOSTRO)
-        return NULL;
     Mostro* mostro = (Mostro*)malloc(sizeof(Mostro));
     controlla_allocazione(mostro);
     mostro->tipo = m;
@@ -95,6 +91,11 @@ Mostro* crea_mostro(TipoMostro m){
             mostro->HP = 80;
             mostro->danno = 35;
             mostro->XP = 100;
+            break;
+        case NO_MOSTRO:
+            mostro->HP = 0;
+            mostro->danno = 0;
+            mostro->XP = 0;
             break;
         default:
             return NULL;

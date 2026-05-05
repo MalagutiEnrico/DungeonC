@@ -47,7 +47,7 @@ TipoComando parse(char* input){
     else if(strcmp(input, "car") == 0)            return CARICA;
     else if(strcmp(input, "map") == 0)            return MAPPA;
     else if(strcmp(input, "hel") == 0)            return HELP;
-    else                                        return INVALIDO;
+    else                                          return INVALIDO;
 }
 
 void help(){
@@ -103,6 +103,7 @@ Eroe* carica_partita(){
     fread(&(e->XP), sizeof(e->XP), 1, f);
     fread(&(e->sheld), sizeof(e->sheld), 1, f);
     fread(&(e->danno), sizeof(e->danno), 1, f);
+    e->inventario = crea_inventario();
     fread(&(e->inventario->len), sizeof(e->inventario->len), 1, f);
     Oggetto* oggetto_tmp = e->inventario->next;
     while(oggetto_tmp != NULL){
@@ -113,8 +114,14 @@ Eroe* carica_partita(){
     Stanza* stanza_tmp = e->mappa->inizio;
     while(stanza_tmp != NULL){
         fread(&(stanza_tmp->ID), sizeof(stanza_tmp->ID), 1, f);
+        Oggetto* oggetto = malloc(sizeof(Oggetto));
+        controlla_allocazione(oggetto);
+        stanza_tmp->oggetto = oggetto;
         fread(&(stanza_tmp->oggetto->tipo), sizeof(stanza_tmp->oggetto->tipo), 1, f);
         fread(&(stanza_tmp->oggetto->val), sizeof(stanza_tmp->oggetto->val), 1, f);
+        Mostro* mostro = malloc(sizeof(Mostro));
+        controlla_allocazione(mostro);
+        stanza_tmp->mostro = mostro;
         fread(&(stanza_tmp->mostro->tipo), sizeof(stanza_tmp->mostro->tipo), 1, f);
         fread(&(stanza_tmp->mostro->HP), sizeof(stanza_tmp->mostro->HP), 1, f);
         fread(&(stanza_tmp->mostro->XP), sizeof(stanza_tmp->mostro->XP), 1, f);
@@ -165,10 +172,10 @@ void esegui_comando(Eroe* e, TipoComando cmd, char* argomento){
 Eroe* inizio_gioco(){
     Eroe* e = NULL;
     char carica;
-    printf("==============================\n");
-    printf("||      DUNGEON C           ||\n");
-    printf("|| GIOCO NEL DUNGEON IN C  ||\n");
-    printf("==============================\n");
+    printf("================================\n");
+    printf("||        DUNGEON C           ||\n");
+    printf("||   GIOCO NEL DUNGEON IN C   ||\n");
+    printf("================================\n");
     do{
         printf("Vuoi caricare una partita salvata? (s/n): ");
         scanf("%c", &carica);

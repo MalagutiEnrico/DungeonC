@@ -83,8 +83,8 @@ typedef struct{
     int est;
     int sud;
     int ovest;
-    TipoOggetto tipo_oggetto;
     TipoMostro tipo_mostro;
+    TipoOggetto tipo_oggetto;
     int valore_oggetto;
 }StanzaSalvataggio;
 
