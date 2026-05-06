@@ -6,6 +6,7 @@
 #define MAX_DIMINPUT 100        //numero massimo di caratteri inseribili in fase di input
 #define MAX_SALUTE 100          //valore massimo di salute dell'eroe
 #define MAX_OGGETTI 5           //numero massimo di oggetti in una stanza
+#define DANNI_INIZIALI 10       //numero di danni che fa all'inizio del gioco
 #define STANZA_CARICAMENTO 1   //stanza iniziale del gioco
 
 //Definizione delle variabili booleane

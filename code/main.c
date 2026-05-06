@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "../include/tipi.h"
 #include "../include/eroe.h"
 #include "../include/mappa.h"
@@ -8,6 +9,7 @@
 #include "../include/utilities.h"
 
 int main(){
+    srand(time(NULL));
     char input[MAX_DIMINPUT];
     char carica;
     char** comando = NULL;

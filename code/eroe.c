@@ -49,7 +49,7 @@ Eroe* crea_eroe(){
     e->HP = MAX_SALUTE;                             //inizializza i valori dell'eroe
     e->XP = 0;
     e->sheld = 0;
-    e->danno = 0;
+    e->danno = DANNI_INIZIALI;
     e->inventario = crea_inventario();
     e->mappa = crea_mappa();
     StanzaSalvataggio* s_s = carica_stanza(STANZA_CARICAMENTO);      //carica la stanza numero 1, quella in cui inizia il gioco
@@ -253,44 +253,44 @@ Bool usa_chiave(Eroe* e, int val){
 
 void usa_torcia(Eroe* e){
     Stanza* s = e->stanza_corrente;
-    if(s->numero_nord == 0){
+    if(s->numero_nord > 0){
         printf("Nella stanza a nord puoi entrare\n");
     }
-    else if(s->numero_nord < 0){
+    else if(s->numero_nord < -1){
         printf("La stanza nord è bloccata da chiave\n");
     }
     else{
-        printf("Nella stanza nord non puoi entrare\n");
+        printf("Nella stanza nord non puoi entrare, c'è un muro\n");
     }
 
-    if(s->numero_sud == 0){
+    if(s->numero_sud > 0){
         printf("Nella stanza a sud puoi entrare\n");
     }
-    else if(s->numero_sud < 0){
+    else if(s->numero_sud < -1){
         printf("La stanza sud è bloccata da chiave\n");
     }
     else{
-        printf("Nella stanza sud non puoi entrare\n");
+        printf("Nella stanza sud non puoi entrare, c'è un muro\n");
     }
 
-    if(s->numero_est == 0){
+    if(s->numero_est > 0){
         printf("Nella stanza a est puoi entrare\n");
     }
-    else if(s->numero_est < 0){
+    else if(s->numero_est < -1){
         printf("La stanza est è bloccata da chiave\n");
     }
     else{
-        printf("Nella stanza est non puoi entrare\n");
+        printf("Nella stanza est non puoi entrare, c'è un muro\n");
     }
 
-    if(s->numero_ovest == 0){
+    if(s->numero_ovest > 0){
         printf("Nella stanza a ovest puoi entrare\n");
     }
-    else if(s->numero_ovest < 0){
+    else if(s->numero_ovest < -1){
         printf("La stanza ovest è bloccata da chiave\n");
     }
     else{
-        printf("Nella stanza ovest non puoi entrare\n");
+        printf("Nella stanza ovest non puoi entrare, c'è un muro\n");
     }
 }
 

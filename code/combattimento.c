@@ -41,8 +41,9 @@ Bool combattimento(Eroe* e, char* argomento){
             else
                 e->HP -= danno_mostro;
             m->HP -= danno_eroe;
-            printf("Hai fatto %d danni al mostro, ma il mostro ti ha tolto %d punti vita.", danno_eroe, danno_mostro);
-            printf("Ti sono rimasti %d HP e %d punti dello scudo", e->HP, e->sheld);
+            printf("Hai fatto %d danni al mostro, ma il mostro ti ha tolto %d punti vita.\n", danno_eroe, danno_mostro);
+            printf("Ti sono rimasti %d HP e %d punti dello scudo\n", e->HP, e->sheld);
+            printf("Al mostro sono rimasti %d punti vita\n", m->HP);
             turni++;
             system("PAUSE");
             if(e->HP <= 0){
@@ -52,9 +53,8 @@ Bool combattimento(Eroe* e, char* argomento){
             else if(m->HP <= 0){
                 printf("Hai sconfitto il mostro.\nHai guadagnato %d punti XP\n", m->XP);
                 e->XP += m->XP;
+                e->stanza_corrente->mostro->tipo = NO_MOSTRO;
                 e->stanza_corrente->tipo_mostro = NO_MOSTRO;
-                free(e->stanza_corrente->mostro);
-                e->stanza_corrente->mostro = NULL;
                 return true;
             }
         }
