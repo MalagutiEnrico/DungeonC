@@ -9,12 +9,18 @@
 void controlla_allocazione(void* ptr);
 
 /**
+ * Funzione che controlla l'esito dell'apertura di un file. In caso sia fallito esce dal programma
+ * @param FILE* puntatore al file aperto
+*/
+void controlla_apertura(FILE* fp);
+
+/**
  * Funzione che pulisce il buffer stdin
 */
 void clear_buffer();
 
 /**
- * Funzione che divide l'input dell'utente in 2 sottostringhe, la prima contentente il comando principale e la seconda l+eventuale argomento
+ * Funzione che divide l'input dell'utente in 2 sottostringhe, la prima contentente il comando principale e la seconda l'eventuale argomento
  * @param char* input preso dall'utente
  * @return char** doppio puntatore all'output (il primo contiene il comando, il secondo l'argomento)
 */

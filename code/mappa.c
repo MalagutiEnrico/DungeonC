@@ -42,11 +42,8 @@ Stanza* converti_stanza(StanzaSalvataggio* s_s){
     s->numero_est = s_s->est;
     s->numero_sud = s_s->sud;
     s->numero_ovest = s_s->ovest;
-    s->tipo_oggetto = s_s->tipo_oggetto;
-    s->tipo_mostro = s_s->tipo_mostro;
-    s->valore_oggetto = s_s->valore_oggetto;
-    s->oggetto = crea_oggetto(s->tipo_oggetto, s->valore_oggetto);
-    s->mostro = crea_mostro(s->tipo_mostro);
+    s->oggetto = crea_oggetto(s_s->tipo_oggetto, s_s->valore_oggetto);
+    s->mostro = crea_mostro(s_s->tipo_mostro);
     return s;
 }
 
@@ -130,9 +127,9 @@ Stanza* crea_stanza(Stanza* provenienza, char* direzione){
         provenienza->ovest = s;
         s->est = provenienza;
     }
-    free(s_s);                                                  //libera la memoria della stanza salvata
-    s->oggetto = crea_oggetto(s->tipo_oggetto, s->valore_oggetto);                  //crea l'oggetto di tipo specificato dal file
-    s->mostro = crea_mostro(s->tipo_mostro);                                        //crea il mostro ti tipo specificato dal file
+    s->oggetto = crea_oggetto(s_s->tipo_oggetto, s_s->valore_oggetto);                  //crea l'oggetto di tipo specificato dal file
+    s->mostro = crea_mostro(s_s->tipo_mostro);                                        //crea il mostro ti tipo specificato dal file
+    free(s_s);                                                                      //libera la memoria della stanza del salvataggio
     return s;
 }
 

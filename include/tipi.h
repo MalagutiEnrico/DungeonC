@@ -98,8 +98,6 @@ typedef struct Stanza{
     struct Stanza* ovest;
     Oggetto* oggetto;
     Mostro* mostro;
-    TipoOggetto tipo_oggetto;
-    TipoMostro tipo_mostro;
     int ID;
     int numero_nord;
     int numero_sud;

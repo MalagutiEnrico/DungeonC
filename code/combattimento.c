@@ -54,7 +54,6 @@ Bool combattimento(Eroe* e, char* argomento){
                 printf("Hai sconfitto il mostro.\nHai guadagnato %d punti XP\n", m->XP);
                 e->XP += m->XP;
                 e->stanza_corrente->mostro->tipo = NO_MOSTRO;
-                e->stanza_corrente->tipo_mostro = NO_MOSTRO;
                 return true;
             }
         }

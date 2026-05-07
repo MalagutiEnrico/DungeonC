@@ -202,9 +202,7 @@ void usa_oggetto(Eroe* e, char* argomento){
         }
         if(usato){                                                                       //se usato è true, allora lo elimina dalla lista
             elimina_oggetto(e->inventario, o);
-            e->stanza_corrente->tipo_oggetto = NO_OGGETTO;
-            free(e->stanza_corrente->oggetto);
-            e->stanza_corrente->oggetto = NULL;
+            e->stanza_corrente->oggetto->tipo = NO_OGGETTO;
         }
     }
     else{
