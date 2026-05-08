@@ -55,6 +55,12 @@ Mostro* crea_mostro(TipoMostro m);
 Stanza* crea_stanza(Stanza* provenienza, char* direzione);
 
 /**
+ * Funzione che stampa la descrizione di una stanza
+ * @param Stanza* stanza di cui stampare la descrizione
+*/
+void descrivi_stanza(Stanza* s);
+
+/**
  * Funzione che elimina una mappa
  * @param Mappa* mappa da eliminare
 */

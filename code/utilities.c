@@ -156,6 +156,8 @@ Eroe* carica_partita(){
             coda_stanze = stanza;                                                              //coda deve sempre puntare all'ultima stanza
         }
     }
+    e->stanza_corrente = (Stanza*)malloc(sizeof(Stanza));
+    controlla_allocazione(e->stanza_corrente);
     fread(&(e->stanza_corrente->ID), sizeof(e->stanza_corrente->ID), 1, f);
     Stanza* current = e->mappa->inizio;
     while(current->ID != e->stanza_corrente->ID)                                        //assegna la stanza corrente dell'eroe in base al suo ID
@@ -172,7 +174,7 @@ void esegui_comando(Eroe* e, TipoComando cmd, char* argomento){
             cambia_stanza(e, argomento);
             break;
         case GUARDA:
-            //stampa la descrizione della stanza
+            descrivi_stanza(e->stanza_corrente);
             break;
         case PRENDI:
             prendi_oggetto(e, tipo_oggetto(argomento));

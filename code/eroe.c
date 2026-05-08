@@ -16,7 +16,7 @@ Inventario* crea_inventario(){
 
 void stampa_inventario(Inventario* i) {
     Oggetto* current = i->next;
-    printf("Oggetti presenti nell'inventario: ");
+    printf("Oggetti presenti nell'inventario:\n");
     if (current == NULL) {
         printf("Inventario vuoto.\n");
         return;
@@ -69,6 +69,7 @@ void stampa_stato(Eroe* e){
 void cambia_stanza(Eroe* e, char* direzione){
     int numero_stanza;
     Stanza* s = NULL;
+    Bool cambiato = false;
     Stanza* stanza_corrente = e->stanza_corrente;
     if(!strcmp(direzione, "nord")){                       //in base alla direzione collega le stanza
         numero_stanza = stanza_corrente->numero_nord;    //imposta il numero della stanza successiva
@@ -86,7 +87,6 @@ void cambia_stanza(Eroe* e, char* direzione){
         printf("Direzione inserita non valida\n");
         return;
     }
-    printf("%d\n", numero_stanza);
     if(numero_stanza == -1){                            //in caso sia uguale a 0 vuole dire che la stanza non è accessibile
         printf("In questa direzione è presente un muro. Cambia direzione oppure usa una torcia per vedere dove andare\n");
     }
@@ -98,11 +98,15 @@ void cambia_stanza(Eroe* e, char* direzione){
         while(s->ID != numero_stanza || s == NULL)
             s = s->next;
         e->stanza_corrente = s;
+        cambiato = true;
     }
     else{                                               //altrimenti la deve creare, caricandola dal file
         e->stanza_corrente = crea_stanza(e->stanza_corrente, direzione);
         e->mappa->numero_stanze++;
+        cambiato = true;
     }
+    if(cambiato)
+        printf("Hai cambiato stanza. Ora ti trovi nella stanza numero %d\n", e->stanza_corrente->ID);
 }
 
 TipoOggetto tipo_oggetto(char* input){
@@ -125,7 +129,7 @@ void prendi_oggetto(Eroe* e, TipoOggetto tipo){
         Oggetto* o = (Oggetto*)malloc(sizeof(Oggetto));                             //crea l'oggetto
         controlla_allocazione(o);
         o->tipo = tipo;
-        o->val = e->stanza_corrente->valore_oggetto;
+        o->val = e->stanza_corrente->oggetto->val;
         o->next = NULL;
         if(e->inventario->len == 0){                                            //caso in cui l'inventario sia vuoto
             e->inventario->next = o;
@@ -137,6 +141,7 @@ void prendi_oggetto(Eroe* e, TipoOggetto tipo){
             tmp->next = o;
         }
         e->inventario->len++;
+        printf("Oggetto aggiunto nell'inventario\n");
     }
 }
 

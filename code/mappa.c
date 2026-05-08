@@ -133,6 +133,46 @@ Stanza* crea_stanza(Stanza* provenienza, char* direzione){
     return s;
 }
 
+void descrivi_stanza(Stanza* s){
+    switch(s->oggetto->tipo){
+        case NO_OGGETTO:
+            printf("La stanza non contiene oggetti\n");
+            break;
+        case POZIONE:
+            printf("La stanza contiene una pozione, Se sei ferito potrebbe aiutarti a curarti\n");
+            break;
+        case ARMA:
+            printf("La stanza contiene un'arma, potrebbe aiutarti a sconfiggere i mostri\n");
+            break;
+        case ARMATURA:   
+            printf("La stanza contiene un'armatura, potrebbe aiutarti a difenderti dai mostri\n");
+            break;
+        case CHIAVE:
+            printf("La stanza contiene una chiave, potrebbe aiutarti a sbloccare una porta chiusa\n");
+            break;
+        case TORCIA:
+            printf("La stanza contiene una torcia, potrebbe aiutarti a vedere al buio\n");
+            break;  
+    }
+    switch(s->mostro->tipo){
+        case NO_MOSTRO:
+            printf("La stanza non contiene mostri\n");
+            break;
+        case SCHELETRO:
+            printf("La stanza contiene uno scheletro, potrebbe darti fastidio, ma non è molto pericoloso\n");
+            break;
+        case GOBLIN:
+            printf("La stanza contiene un goblin, non è molto agressivo ma potrebbe toglierti qualche punto vita, stai attento\n");
+            break;
+        case DRAGO:   
+            printf("La stanza contiene un drago, è molto pericoloso, se non sei abbastanza forte può ucciderti in pochi colpi, stai molto attento\n");
+            break;
+        case BOSS:
+            printf("La stanza contiene IL BOSS DICARA, è estremamente pericoloso, se non sei abbastanza forte potrebbe codificarti e ucciderti in un colpo solo\n");
+            break;
+    } 
+}
+
 void elimina_mappa(Mappa* p){
     Stanza* s = p->inizio;
     while(s != NULL){

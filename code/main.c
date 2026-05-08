@@ -17,6 +17,7 @@ int main(){
     TipoComando cmd;
     Eroe* e = inizio_gioco();
     printf("Gioco INIZIATO (debug mode)\n");
+    help();
     while(e->HP > 0 && !vinto){
         stampa_stato(e);
         printf(">");
