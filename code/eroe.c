@@ -102,6 +102,10 @@ void cambia_stanza(Eroe* e, char* direzione){
     }
     else{                                               //altrimenti la deve creare, caricandola dal file
         e->stanza_corrente = crea_stanza(e->stanza_corrente, direzione);
+        Stanza* tmp = e->mappa->inizio;
+        while(tmp->next != NULL)                        //collega la stanza appena creata alla lista delle stanze
+            tmp = tmp->next;
+        tmp->next = e->stanza_corrente;
         e->mappa->numero_stanze++;
         cambiato = true;
     }
@@ -141,6 +145,7 @@ void prendi_oggetto(Eroe* e, TipoOggetto tipo){
             tmp->next = o;
         }
         e->inventario->len++;
+        e->stanza_corrente->oggetto->tipo = NO_OGGETTO;
         printf("Oggetto aggiunto nell'inventario\n");
     }
 }

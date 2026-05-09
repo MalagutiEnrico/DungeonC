@@ -130,6 +130,7 @@ Stanza* crea_stanza(Stanza* provenienza, char* direzione){
     s->oggetto = crea_oggetto(s_s->tipo_oggetto, s_s->valore_oggetto);                  //crea l'oggetto di tipo specificato dal file
     s->mostro = crea_mostro(s_s->tipo_mostro);                                        //crea il mostro ti tipo specificato dal file
     free(s_s);                                                                      //libera la memoria della stanza del salvataggio
+    s->next = NULL;                                                                     //punta a NULL cos diventa l'ultima stanza a essere caricata
     return s;
 }
 
