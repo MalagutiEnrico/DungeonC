@@ -55,6 +55,7 @@ Eroe* crea_eroe(){
     StanzaSalvataggio* s_s = carica_stanza(STANZA_CARICAMENTO);      //carica la stanza numero 1, quella in cui inizia il gioco
     e->stanza_corrente = converti_stanza(s_s);      //e convertila in una stanza adatta al videogioco
     e->mappa->inizio = e->stanza_corrente;          //infine impostala come stanza corrente dell'eroe
+    e->mappa->numero_stanze = 1;                    //imposta il numero di stanze caricate
     e->stanza_corrente->next = NULL;                //non puntare a niente per evitare cicli infiniti
     return e;
 }

@@ -192,7 +192,7 @@ void esegui_comando(Eroe* e, TipoComando cmd, char* argomento){
             salva_partita(e);
             break;
         case MAPPA:
-            //funzione stampa mappa
+            stampa_mappa_ascii(e, e->mappa->numero_stanze);
             break;
         case HELP:
             help();

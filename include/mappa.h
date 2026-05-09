@@ -61,6 +61,13 @@ Stanza* crea_stanza(Stanza* provenienza, char* direzione);
 void descrivi_stanza(Stanza* s);
 
 /**
+ * Funzione che stampa la mappa esplorata in formato ASCII a matrice
+ * @param Eroe* eroe da cui ricavare mappa e stanza corrente
+ * @param int numero_stanze numero stanze esplorate/caricate
+*/
+void stampa_mappa_ascii(Eroe* e, int numero_stanze);
+
+/**
  * Funzione che elimina una mappa
  * @param Mappa* mappa da eliminare
 */
