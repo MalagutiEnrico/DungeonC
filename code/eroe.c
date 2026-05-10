@@ -172,9 +172,11 @@ void elimina_oggetto(Inventario* i, Oggetto* o){
     Oggetto* current = i->next;
     while(current != NULL){
         if(current->tipo == o->tipo){
-            Oggetto* tmp = current->next;
-            current->next = current->next->next;
-            free(tmp);
+            Oggetto* current = i->next;
+            while (current->next->next != NULL)
+                current = current->next;
+            free(current->next);
+            current->next = NULL;
             i->len--;
             return;
         }

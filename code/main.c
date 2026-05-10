@@ -26,8 +26,7 @@ int main(){
         comando = dividi_input(input);
         cmd = parse(comando[0]);
         esegui_comando(e, cmd, comando[1]);
-        system("PAUSE");
-        system("CLS");
+        printf("\n\n");
     }
     elimina_eroe(e);
     return 0;
