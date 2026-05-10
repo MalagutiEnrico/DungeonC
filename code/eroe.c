@@ -242,18 +242,22 @@ Bool usa_chiave(Eroe* e, int val){
     Stanza* s = e->stanza_corrente;             //controlla tra le stanze
     if(s->numero_nord == -val){                 //in caso il valore della stanza nella direzione sia il negativo del valore della chiave, allora la chiave apre quella porta
         s->numero_nord = val;
+        printf("Porta sbloccata\n");
         return true;
     }
     else if(s->numero_est == -val){
         s->numero_est = val;
+        printf("Porta sbloccata\n");
         return true;
     }
     else if(s->numero_sud == -val){
         s->numero_sud = val;
+        printf("Porta sbloccata\n");
         return true;
     }
     else if(s->numero_ovest == -val){
         s->numero_ovest = val;
+        printf("Porta sbloccata\n");
         return true;
     }
     else{

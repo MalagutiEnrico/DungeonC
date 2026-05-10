@@ -167,8 +167,8 @@ Eroe* carica_partita(){
     return e;
 }
 
-void esegui_comando(Eroe* e, TipoComando cmd, char* argomento){
-    Bool esito;
+Bool esegui_comando(Eroe* e, TipoComando cmd, char* argomento){
+    Bool esito = false;
     switch(cmd){
         case VAI:
             cambia_stanza(e, argomento);
@@ -201,6 +201,7 @@ void esegui_comando(Eroe* e, TipoComando cmd, char* argomento){
             printf("Comando non valido. Digita help per vedere i comandi disponibili\n");
             break;
     }
+    return esito;
 }
 
 Eroe* inizio_gioco(){
@@ -225,4 +226,21 @@ Eroe* inizio_gioco(){
         e = crea_eroe();
     }
     return e;
+}
+
+void fine_gioco(Eroe* e){
+    system("CLS");
+    if(e->HP <= 0){
+        printf("====================================\n");
+        printf("||           GAME OVER            ||\n");
+        printf("|| RITENTA, E FAI SCELTE MIGLIORI ||\n");
+        printf("====================================\n");
+    }
+    else{
+        printf("========================\n");
+        printf("||      HAI VINTO     ||\n");
+        printf("|| Hai ottenuto %dXP  ||\n", e->XP);
+        printf("========================\n");
+    }
+    elimina_eroe(e);
 }

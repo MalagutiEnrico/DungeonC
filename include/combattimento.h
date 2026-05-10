@@ -29,7 +29,7 @@ TipoMostro tipo_mostro(char* input);
  * Funzione che svolge un attacco
  * @param Eroe* eroe che vuole attaccare
  * @param char* argomento dell'input che specifica il mostro
- * @return Bool true se l'eroe vince, altrimenti false se perde
+ * @return Bool true se l'eroe perde OPPURE sconfigge il BOSS
 */
 Bool combattimento(Eroe* e, char* input);
 

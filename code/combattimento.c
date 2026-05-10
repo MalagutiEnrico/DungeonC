@@ -46,15 +46,15 @@ Bool combattimento(Eroe* e, char* argomento){
             printf("Al mostro sono rimasti %d punti vita\n", m->HP);
             turni++;
             system("PAUSE");
-            if(e->HP <= 0){
-                printf("Sei stato sconfitto\n");
-                return false;
-            }
-            else if(m->HP <= 0){
-                printf("Hai sconfitto il mostro.\nHai guadagnato %d punti XP\n", m->XP);
-                e->XP += m->XP;
-                e->stanza_corrente->mostro->tipo = NO_MOSTRO;
+            if(e->HP <= 0)
                 return true;
+            else if(m->HP <= 0){
+                e->XP += m->XP;
+                if(m->tipo == BOSS)
+                    return true;
+                printf("Hai sconfitto il mostro.\nHai guadagnato %d punti XP\n", m->XP);
+                e->stanza_corrente->mostro->tipo = NO_MOSTRO;
+                return false;
             }
         }
     }

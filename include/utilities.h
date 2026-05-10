@@ -56,12 +56,18 @@ Eroe* carica_partita();
  * @param TipoComando tipologia del comando da eseguire
  * @param char* stringa argomento del comando
 */
-void esegui_comando(Eroe* e, TipoComando cmd, char* argomento);
+Bool esegui_comando(Eroe* e, TipoComando cmd, char* argomento);
 
 /**
  * Funzione che stampa l'inizio del gioco e permette di scegliere se caricare una partita o iniziarne una nuova
  * @return Eroe* puntatore all'eroe creato
 */
 Eroe* inizio_gioco();
+
+/**
+ * Funzione che controlla come è finito il gioco. Libera la memoria allocata e esce dal gioco
+ * @param Eroe* che ha finito il gioco
+*/
+void fine_gioco(Eroe* e);
 
 #endif

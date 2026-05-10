@@ -13,21 +13,21 @@ int main(){
     char input[MAX_DIMINPUT];
     char carica;
     char** comando = NULL;
-    Bool vinto = false;
+    Bool fine = false;
     TipoComando cmd;
     Eroe* e = inizio_gioco();
     printf("Gioco INIZIATO (debug mode)\n");
     help();
-    while(e->HP > 0 && !vinto){
+    while(!fine){
         stampa_stato(e);
         printf(">");
         scanf("%[^\n]", input);
         clear_buffer();
         comando = dividi_input(input);
         cmd = parse(comando[0]);
-        esegui_comando(e, cmd, comando[1]);
+        fine = esegui_comando(e, cmd, comando[1]);
         printf("\n\n");
     }
-    elimina_eroe(e);
+    fine_gioco(e);
     return 0;
 }
