@@ -80,15 +80,21 @@ void salva_partita(Eroe* e){
     fwrite(&(e->danno), sizeof(e->danno), 1, f);
     Oggetto* oggetto = e->inventario->next;                                             //crea un oggetto temporaneo per salvare l'inventario
     fwrite(&(e->inventario->len), sizeof(e->inventario->len), 1, f);                        //salva la linghezza dell'inventario
+    if(e->inventario->len > 0){
     while(oggetto != NULL){                                                             //salva i dati dell'inventario su file
-        fwrite(&(oggetto->tipo), sizeof(oggetto->tipo), 1, f);
-        fwrite(&(oggetto->val), sizeof(oggetto->val), 1, f);
-        oggetto = oggetto->next;
+            fwrite(&(oggetto->tipo), sizeof(oggetto->tipo), 1, f);
+            fwrite(&(oggetto->val), sizeof(oggetto->val), 1, f);
+            oggetto = oggetto->next;
+        }
     }
     Stanza* stanza = e->mappa->inizio;                                                  //crea la stanza temporanea per salvare la mappa
     fwrite(&(e->mappa->numero_stanze), sizeof(e->mappa->numero_stanze), 1, f);              //salva il numero di stanze della mappa (solo quelle allocata)
     while(stanza != NULL){                                                              //salva i dati di tutte le stanze su file
         fwrite(&(stanza->ID), sizeof(stanza->ID), 1, f);
+        fwrite(&(stanza->numero_nord), sizeof(stanza->numero_nord), 1, f);
+        fwrite(&(stanza->numero_est), sizeof(stanza->numero_est), 1, f);
+        fwrite(&(stanza->numero_sud), sizeof(stanza->numero_sud), 1, f);
+        fwrite(&(stanza->numero_ovest), sizeof(stanza->numero_ovest), 1, f);
         fwrite(&(stanza->oggetto->tipo), sizeof(stanza->oggetto->tipo), 1, f);
         fwrite(&(stanza->oggetto->val), sizeof(stanza->oggetto->val), 1, f);
         fwrite(&(stanza->mostro->tipo), sizeof(stanza->mostro->tipo), 1, f);
@@ -113,21 +119,24 @@ Eroe* carica_partita(){
     fread(&(e->danno), sizeof(e->danno), 1, f);                                         //carica il danno minimo
     e->inventario = crea_inventario();                                                  //crea lo spazio per l'inventario
     fread(&(e->inventario->len), sizeof(e->inventario->len), 1, f);                     //leggi quanti elementi ha l'inventario
-    Oggetto* coda_oggetti = NULL;                                                               //punta all'ultimo elemento nell'inventario
-    for(int i=0; i<e->inventario->len; i++){                                            //per ogni oggetto presente nell'inventario
-        Oggetto* oggetto = malloc(sizeof(Oggetto));                                     //crea un oggetto
-        controlla_allocazione(oggetto);
-        fread(&(oggetto->tipo), sizeof(oggetto->tipo), 1, f);                           //leggi il tipo dell'oggetto
-        fread(&(oggetto->val), sizeof(oggetto->val), 1, f);                             //leggi il valore dell'oggetto
-        oggetto->next = NULL;                                                           //punta il prossimo a NULL
-        if(e->inventario->next == NULL){                                                //se la lista è vuota lo inserisce in testa
-            e->inventario->next = oggetto;
-            coda_oggetti = oggetto;
+    if(e->inventario->len > 0){
+        Oggetto* coda_oggetti = NULL;                                                               //punta all'ultimo elemento nell'inventario
+        for(int i=0; i<e->inventario->len; i++){                                            //per ogni oggetto presente nell'inventario
+            Oggetto* oggetto = malloc(sizeof(Oggetto));                                     //crea un oggetto
+            controlla_allocazione(oggetto);
+            fread(&(oggetto->tipo), sizeof(oggetto->tipo), 1, f);                           //leggi il tipo dell'oggetto
+            fread(&(oggetto->val), sizeof(oggetto->val), 1, f);                             //leggi il valore dell'oggetto
+            oggetto->next = NULL;                                                           //punta il prossimo a NULL
+            if(e->inventario->next == NULL){                                                //se la lista è vuota lo inserisce in testa
+                e->inventario->next = oggetto;
+                coda_oggetti = oggetto;
+            }
+            else{                                                                           //altrimenti lo mette in coda
+                coda_oggetti->next = oggetto;
+                coda_oggetti = oggetto;                                                             //coda deve sempre puntare all'ultimo oggetto
+            }
         }
-        else{                                                                           //altrimenti lo mette in coda
-            coda_oggetti->next = oggetto;
-            coda_oggetti = oggetto;                                                             //coda deve sempre puntare all'ultimo oggetto
-        }
+        coda_oggetti->next = NULL;
     }
     e->mappa = crea_mappa();                                                            //crea un mappa
     fread(&(e->mappa->numero_stanze), sizeof(e->mappa->numero_stanze), 1, f);           //leggi il numero delle stanze
@@ -136,6 +145,10 @@ Eroe* carica_partita(){
         Stanza* stanza = malloc(sizeof(Stanza));                                        //crea la nuova stanza
         controlla_allocazione(stanza);
         fread(&(stanza->ID), sizeof(stanza->ID), 1, f);                                 //leggi l'ID della stanza
+        fread(&(stanza->numero_nord), sizeof(stanza->numero_nord), 1, f);               //leggi il numero della stanza a nord
+        fread(&(stanza->numero_est), sizeof(stanza->numero_est), 1, f);                 //leggi il numero della stanza a est
+        fread(&(stanza->numero_sud), sizeof(stanza->numero_sud), 1, f);                 //leggi il numero della stanza a sud
+        fread(&(stanza->numero_ovest), sizeof(stanza->numero_ovest), 1, f);             //leggi il numero della stanza a ovest
         Oggetto* oggetto = malloc(sizeof(Oggetto));                                     //crea l'oggetto della stanza
         controlla_allocazione(oggetto);
         fread(&(oggetto->tipo), sizeof(oggetto->tipo), 1, f);                           //leggi il tipo dell'oggetto della stanza
@@ -157,6 +170,7 @@ Eroe* carica_partita(){
             coda_stanze = stanza;                                                              //coda deve sempre puntare all'ultima stanza
         }
     }
+    coda_stanze->next = NULL;
     e->stanza_corrente = (Stanza*)malloc(sizeof(Stanza));
     controlla_allocazione(e->stanza_corrente);
     fread(&(e->stanza_corrente->ID), sizeof(e->stanza_corrente->ID), 1, f);
@@ -218,9 +232,11 @@ Eroe* inizio_gioco(){
     } while(carica != 's' && carica != 'n');
     if(carica == 's'){
         e = carica_partita();
+        printf("Partita caricata da file\n");
     }
     else{
         e = crea_eroe();
+        printf("Partita creata nuova\n");
     }
     printf("================================\n");
     printf("||        DUNGEON C           ||\n");
