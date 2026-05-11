@@ -59,15 +59,16 @@ TipoComando parse(char* input){
 
 void help(){
     printf("LISTA COMANDI:\n");
-    printf("VAI <direzione>:\tcomando che ti fa andare in una stanza\n");
+    printf("VAI <(nord, sud, est, ovest)>:\tcomando che ti fa andare in una stanza\n");
     printf("GUARDA:\tcomando che ti stampa cosa c'è nella stanza\n");
-    printf("PRENDI <oggetto>:\tcomando che ti prende un oggetto\n");
-    printf("USA <oggetto>:\tcomando che ti fa usare un oggetto\n");
+    printf("PRENDI <(torcia, arma, armatura, pozione)>:\tcomando che ti prende un oggetto\n");
+    printf("USA <(torcia, arma, armatura, pozione)>:\tcomando che ti fa usare un oggetto\n");
     printf("ATTACCA <mostro>:\tcomando che ti fa attaccare\n");
     printf("INVENTARIO:\t comando che ti mostra l'inventario\n");
     printf("SALVA:\tcomando che ti fa i dari del gioco\n");
     printf("CARICA:\tcomando che ti carica i dati della partita\n");
     printf("MAPPA:\tcomando che ti mostra la mappa\n");
+    printf("HELP:\tcomando che ti mostra i comandi disponibili");
 }
 
 void salva_partita(Eroe* e){
@@ -207,10 +208,6 @@ Bool esegui_comando(Eroe* e, TipoComando cmd, char* argomento){
 Eroe* inizio_gioco(){
     Eroe* e = NULL;
     char carica;
-    printf("================================\n");
-    printf("||        DUNGEON C           ||\n");
-    printf("||   GIOCO NEL DUNGEON IN C   ||\n");
-    printf("================================\n");
     do{
         printf("Vuoi caricare una partita salvata? (s/n): ");
         scanf("%c", &carica);
@@ -225,6 +222,16 @@ Eroe* inizio_gioco(){
     else{
         e = crea_eroe();
     }
+    printf("================================\n");
+    printf("||        DUNGEON C           ||\n");
+    printf("||   GIOCO NEL DUNGEON IN C   ||\n");
+    printf("================================\n");
+    printf("Fiato corto. Vista annebbiata. Un vuoto pneumatico dove dovrebbero esserci i tuoi ricordi. Non sai chi sei. Ma sai dove sei: nell'abisso.\n");
+    printf("Una luce spettrale illumina una lettera che giace sul pavimento umido.\nLa raccogli, mentre una consapevolezza gelida ti scivola lungo la schiena leggendo quelle poche, brutali righe: ");
+    printf("Sei morto. Questo e' il tuo purgatorio di pietra. \nEsci vivo da questo Dungeon, o la tua storia finirà qui, nel buio, dove nessuno ricordera' il tuo nome.\n");
+    system("PAUSE");
+    system("CLS");
+    help();
     return e;
 }
 

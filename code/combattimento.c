@@ -15,10 +15,10 @@ int attacco_eroe(Eroe* e){
 }
 
 TipoMostro tipo_mostro(char* input){
-    if(strcmp(input, "scheletro") == 0)         return POZIONE;
-    else if(strcmp(input, "goblin") == 0)       return ARMA;
-    else if(strcmp(input, "drago") == 0)        return ARMATURA;
-    else if(strcmp(input, "boss") == 0)         return CHIAVE;
+    if(strcmp(input, "scheletro") == 0)         return SCHELETRO;
+    else if(strcmp(input, "goblin") == 0)       return GOBLIN;
+    else if(strcmp(input, "drago") == 0)        return DRAGO;
+    else if(strcmp(input, "boss") == 0)         return BOSS;
     else                                        return NO_MOSTRO;
 }
 
