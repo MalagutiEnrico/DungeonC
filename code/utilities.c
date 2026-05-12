@@ -68,12 +68,13 @@ void help(){
     printf("SALVA:\tcomando che ti fa i dari del gioco\n");
     printf("CARICA:\tcomando che ti carica i dati della partita\n");
     printf("MAPPA:\tcomando che ti mostra la mappa\n");
-    printf("HELP:\tcomando che ti mostra i comandi disponibili");
+    printf("HELP:\tcomando che ti mostra i comandi disponibili\n");
 }
 
 void salva_partita(Eroe* e){
     FILE* f = fopen("../saves/partita.sav", "wb");                                                   //apri il file in modalità binaria
     controlla_apertura(f);
+    fwrite(e->nome, sizeof(e->nome), 1, f);                                                  //scrivi il nome dell'eroe
     fwrite(&(e->HP), sizeof(e->HP), 1, f);                                                  //scrivi i dati dell'eroe (HP, XP, sheld, danno)
     fwrite(&(e->XP), sizeof(e->XP), 1, f);
     fwrite(&(e->sheld), sizeof(e->sheld), 1, f);
@@ -113,6 +114,7 @@ Eroe* carica_partita(){
     controlla_allocazione(e);
     FILE* f = fopen("../saves/partita.sav", "rb");
     controlla_apertura(f);
+    fread(e->nome, sizeof(e->nome), 1, f);                                               //carica il nome dell'eroe
     fread(&(e->HP), sizeof(e->HP), 1, f);                                               //carica la salute dell'eroe
     fread(&(e->XP), sizeof(e->XP), 1, f);                                               //carica gli XP dell'eroe
     fread(&(e->sheld), sizeof(e->sheld), 1, f);                                         //carica lo scudo
@@ -237,6 +239,7 @@ Eroe* inizio_gioco(){
     else{
         e = crea_eroe();
         printf("Partita creata nuova\n");
+        system("CLS");
     }
     printf("================================\n");
     printf("||        DUNGEON C           ||\n");

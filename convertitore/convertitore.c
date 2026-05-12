@@ -31,33 +31,56 @@ La riga nel file.txt della stanza 1 sarà la seguente:
 #include <string.h>
 #include "../include/tipi.h"
 
-int main(){
-    int num_stanze;
-    StanzaSalvataggio* s = (StanzaSalvataggio*)malloc(sizeof(StanzaSalvataggio));
-    FILE* f_txt = fopen("mappa.txt", "r");
-    if(f_txt == NULL){
-        printf("Errore nell'apertura del file di testo");
-        exit(1);
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main() {
+    FILE* f_csv = fopen("../convertitore/mappa.csv", "r");
+    FILE* f_bin = fopen("mappa.map", "wb");
+
+    if (!f_csv || !f_bin) {
+        printf("Errore apertura file\n");
+        return 1;
     }
-    FILE* f_map = fopen("mappa.map", "wb");
-    if(f_map == NULL){
-        printf("Errore nell'apertura del file binario di salvataggio\n");
-        exit(1);
+
+    char line[1000];
+    StanzaSalvataggio s;
+
+    // salta header
+    fgets(line, sizeof(line), f_csv);
+
+    while (fscanf(f_csv,
+        "%d, \"%199[^\"]\", \"%199[^\"]\", %d, %d, %d, %d, %d, %d, %d",
+        &s.ID,
+        s.nome,
+        s.desc,
+        &s.nord,
+        &s.est,
+        &s.sud,
+        &s.ovest,
+        &s.tipo_mostro,
+        &s.tipo_oggetto,
+        &s.valore_oggetto) == 10)
+    {
+        printf("%d,%s,%s,%d,%d,%d,%d,%d,%d,%d\n",
+    s.ID,
+    s.nome,
+    s.desc,
+    s.nord,
+    s.est,
+    s.sud,
+    s.ovest,
+    s.tipo_mostro,
+    s.tipo_oggetto,
+    s.valore_oggetto);
+        fwrite(&s, sizeof(StanzaSalvataggio), 1, f_bin);
     }
-    fscanf(f_txt, "%d", &num_stanze);
-    for(int i=0; i<num_stanze; i++){
-        if(fscanf(f_txt, "%d %d %d %d %d %d %d %d", &s->ID, &s->nord, &s->est, &s->sud, &s->ovest, &s->tipo_mostro, &s->tipo_oggetto, &s->valore_oggetto) != 8){
-            printf("Errore nella lettura di una riga del file, in particolare la riga numero %d\n", i);
-            fclose(f_txt);
-            fclose(f_map);
-            exit(1);
-        }
-        printf("%d %d %d %d %d %d %d %d\n", s->ID, s->nord, s->est, s->sud, s->ovest, s->tipo_mostro, s->tipo_oggetto, s->valore_oggetto);
-        fwrite(s, sizeof(StanzaSalvataggio), 1, f_map);
-    }
-    printf("File convertito correttamente\n");
-    fclose(f_txt);
-    fclose(f_map);
-    free(s);
+
+    fclose(f_csv);
+    fclose(f_bin);
+
+    printf("Conversione completata\n");
+
     return 0;
 }

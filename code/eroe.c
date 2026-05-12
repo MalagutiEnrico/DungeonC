@@ -46,6 +46,11 @@ void stampa_inventario(Inventario* i) {
 Eroe* crea_eroe(){
     Eroe* e = (Eroe*)malloc(sizeof(Eroe));
     controlla_allocazione(e);
+    printf("===============================\n");
+    printf("|| BENVENUTO NUOVO GIOCATORE ||\n");
+    printf("===============================\n");
+    printf("Inserisci il nome dell'eroe: ");
+    scanf("%[^\n]", &e->nome);
     e->HP = MAX_SALUTE;                             //inizializza i valori dell'eroe
     e->XP = 0;
     e->sheld = 0;
@@ -61,10 +66,11 @@ Eroe* crea_eroe(){
 }
 
 void stampa_stato(Eroe* e){
+    printf("Nome: %s\n", e->nome);
     printf("HP: %d\n", e->HP);
     printf("XP: %d\n", e->XP);
     printf("Sheld: %d\n", e->sheld);
-    printf("Ti trovi nella stanza %d\n", e->stanza_corrente->ID);
+    printf("Ti trovi nella stanza: %s\n", e->stanza_corrente->nome);
 }
 
 void cambia_stanza(Eroe* e, char* direzione){
@@ -231,11 +237,11 @@ void usa_pozione(Eroe* e, int val){
 }
 
 void usa_arma(Eroe* e, int val){
-    e->danno = val;
+    e->danno += val;
 }
 
 void usa_armatura(Eroe* e, int val){
-    e->sheld = val;
+    e->sheld += val;
 }
 
 Bool usa_chiave(Eroe* e, int val){

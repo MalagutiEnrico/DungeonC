@@ -4,8 +4,8 @@
 
 #define MAX_INVENTARIO 8        //numero di oggetti massimi nell'inventario
 #define MAX_DIMINPUT 100        //numero massimo di caratteri inseribili in fase di input
+#define MAX_DIMDESC 200         //dimensione massima delle descrizioni delle stanze
 #define MAX_SALUTE 100          //valore massimo di salute dell'eroe
-#define MAX_OGGETTI 5           //numero massimo di oggetti in una stanza
 #define DANNI_INIZIALI 10       //numero di danni che fa all'inizio del gioco
 #define STANZA_CARICAMENTO 1   //stanza iniziale del gioco
 
@@ -46,6 +46,7 @@ typedef enum{
     CARICA,
     MAPPA,
     HELP,
+    ESCI,
     INVALIDO
 }TipoComando;
 
@@ -68,14 +69,7 @@ typedef struct Mostro{
     int HP;
     int XP;
     int danno;
-    struct Mostro* next;
 }Mostro;
-
-//Definizione della lista dei mostri presenti in una stanza
-typedef struct{
-    Mostro* head;
-    int len;
-}ListaMostri;
 
 //definizione stanza caricata da file
 typedef struct{
@@ -87,6 +81,8 @@ typedef struct{
     TipoMostro tipo_mostro;
     TipoOggetto tipo_oggetto;
     int valore_oggetto;
+    char nome[MAX_DIMDESC];
+    char desc[MAX_DIMDESC];
 }StanzaSalvataggio;
 
 //Definizione della struct stanza
@@ -98,6 +94,8 @@ typedef struct Stanza{
     struct Stanza* ovest;
     Oggetto* oggetto;
     Mostro* mostro;
+    char nome[MAX_DIMDESC];
+    char desc[MAX_DIMDESC];
     int ID;
     int numero_nord;
     int numero_sud;
@@ -119,6 +117,7 @@ typedef struct{
 
 //struttura per l'eroe
 typedef struct{
+    char* nome[20];
     int HP;
     int XP;
     int sheld;

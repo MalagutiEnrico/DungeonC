@@ -45,7 +45,7 @@ Bool trova_stanza(Mappa* stanze, int numero_stanza){
 
 StanzaSalvataggio* carica_stanza(int numero_stanza){
     FILE* f = fopen("../convertitore/mappa.map", "rb");
-    controlla_allocazione(f);
+    controlla_apertura(f);
     StanzaSalvataggio* s = (StanzaSalvataggio*)malloc(sizeof(StanzaSalvataggio)); //crea lo spazio di memoria per la stanza da leggere dal file
     controlla_allocazione(s);
     long offset = (numero_stanza - 1) * sizeof(StanzaSalvataggio);    //sizeof dettato dal numero delle stanze + le stanze effettive
@@ -54,8 +54,7 @@ StanzaSalvataggio* carica_stanza(int numero_stanza){
         free(s);
         return NULL;
     }
-    fread(s, sizeof(StanzaSalvataggio), 1, f);                                    //salva la stanza nella struct
-    fclose(f);
+    fread(s, sizeof(StanzaSalvataggio), 1, f);
     return s;
 }
 
@@ -63,6 +62,8 @@ Stanza* converti_stanza(StanzaSalvataggio* s_s){
     Stanza* s = (Stanza*)malloc(sizeof(Stanza));        //alloca lo spazio per una stanza
     controlla_allocazione(s);
     s->ID = s_s->ID;                                    //copia i valori della stanza dal salvataggio in quella gestibile nel gioco
+    strcpy(s->nome, s_s->nome);
+    strcpy(s->desc, s_s->desc);
     s->numero_nord = s_s->nord;
     s->numero_est = s_s->est;
     s->numero_sud = s_s->sud;
@@ -92,7 +93,6 @@ Mostro* crea_mostro(TipoMostro m){
     Mostro* mostro = (Mostro*)malloc(sizeof(Mostro));
     controlla_allocazione(mostro);
     mostro->tipo = m;
-    mostro->next = NULL;
     switch(m){                                          //in base al tipo di mostro, avrà delle statistiche diverse
         case SCHELETRO:
             mostro->HP = 10;
@@ -160,6 +160,7 @@ Stanza* crea_stanza(Stanza* provenienza, char* direzione){
 }
 
 void descrivi_stanza(Stanza* s){
+    printf("%s\n", s->desc);
     switch(s->oggetto->tipo){
         case NO_OGGETTO:
             printf("La stanza non contiene oggetti\n");
