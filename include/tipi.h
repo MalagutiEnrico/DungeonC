@@ -101,7 +101,6 @@ typedef struct Stanza{
     int numero_sud;
     int numero_est;
     int numero_ovest;
-    int valore_oggetto;
 }Stanza;
 
 typedef struct{

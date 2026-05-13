@@ -68,8 +68,8 @@ Stanza* converti_stanza(StanzaSalvataggio* s_s){
     s->numero_est = s_s->est;
     s->numero_sud = s_s->sud;
     s->numero_ovest = s_s->ovest;
-    s->oggetto = crea_oggetto(s_s->tipo_oggetto, s_s->valore_oggetto);
-    s->mostro = crea_mostro(s_s->tipo_mostro);
+    s->oggetto = crea_oggetto(s_s->tipo_oggetto, s_s->valore_oggetto);      //crea l'oggetto del tipo e con il valore specificati dal file
+    s->mostro = crea_mostro(s_s->tipo_mostro);                              //crea il mostro con il tipo specificato dal file
     return s;
 }
 
@@ -128,10 +128,10 @@ Mostro* crea_mostro(TipoMostro m){
 Stanza* crea_stanza(Stanza* provenienza, char* direzione){
     StanzaSalvataggio* s_s = NULL;
     Stanza* s = NULL;
-    if(!strcmp(direzione, "nord")){                          //in base alla direzione collega le stanza                                          //la stanza esiste
-        s_s = carica_stanza(provenienza->numero_nord);             //carica la struttura da file
-        s = converti_stanza(s_s);                           //la converte in una stanza del gioco
-        provenienza->nord = s;                              //imposta i collegamenti con la stanza di provenienza
+    if(!strcmp(direzione, "nord")){                             //in base alla direzione collega le stanza                                          //la stanza esiste
+        s_s = carica_stanza(provenienza->numero_nord);          //carica la struttura da file
+        s = converti_stanza(s_s);                               //la converte in una stanza del gioco
+        provenienza->nord = s;                                  //imposta i collegamenti con la stanza di provenienza
         s->sud = provenienza;
     }
     else if(!strcmp(direzione, "est")){
@@ -153,15 +153,15 @@ Stanza* crea_stanza(Stanza* provenienza, char* direzione){
         s->est = provenienza;
     }
     s->oggetto = crea_oggetto(s_s->tipo_oggetto, s_s->valore_oggetto);                  //crea l'oggetto di tipo specificato dal file
-    s->mostro = crea_mostro(s_s->tipo_mostro);                                        //crea il mostro ti tipo specificato dal file
-    free(s_s);                                                                      //libera la memoria della stanza del salvataggio
-    s->next = NULL;                                                                     //punta a NULL cos diventa l'ultima stanza a essere caricata
+    s->mostro = crea_mostro(s_s->tipo_mostro);                                          //crea il mostro ti tipo specificato dal file
+    free(s_s);                                                                          //libera la memoria della stanza del salvataggio
+    s->next = NULL;                                                                     //punta a NULL così diventa l'ultima stanza a essere caricata
     return s;
 }
 
 void descrivi_stanza(Stanza* s){
-    printf("%s\n", s->desc);
-    switch(s->oggetto->tipo){
+printf("%s\n", s->desc);                                                                                //stampa la descrizione della stanza
+    switch(s->oggetto->tipo){                                                                           //per ogni oggetto, scrivi una breve descrizione
         case NO_OGGETTO:
             printf("La stanza non contiene oggetti\n");
             break;
@@ -181,7 +181,7 @@ void descrivi_stanza(Stanza* s){
             printf("La stanza contiene una torcia, potrebbe aiutarti a vedere al buio\n");
             break;  
     }
-    switch(s->mostro->tipo){
+    switch(s->mostro->tipo){                                                                            //per ogni mostro scrivi una breve descrizione
         case NO_MOSTRO:
             printf("La stanza non contiene mostri\n");
             break;
