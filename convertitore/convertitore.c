@@ -31,10 +31,6 @@ La riga nel file.txt della stanza 1 sarà la seguente:
 #include <string.h>
 #include "../include/tipi.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 int main() {
     FILE* f_csv = fopen("../convertitore/mappa.csv", "r");
     FILE* f_bin = fopen("mappa.map", "wb");

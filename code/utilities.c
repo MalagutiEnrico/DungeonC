@@ -92,6 +92,8 @@ void salva_partita(Eroe* e){
     fwrite(&(e->mappa->numero_stanze), sizeof(e->mappa->numero_stanze), 1, f);              //salva il numero di stanze della mappa (solo quelle allocata)
     while(stanza != NULL){                                                              //salva i dati di tutte le stanze su file
         fwrite(&(stanza->ID), sizeof(stanza->ID), 1, f);
+        fwrite(stanza->nome, sizeof(stanza->nome), 1, f);
+        fwrite(stanza->nome, sizeof(stanza->nome), 1, f);
         fwrite(&(stanza->numero_nord), sizeof(stanza->numero_nord), 1, f);
         fwrite(&(stanza->numero_est), sizeof(stanza->numero_est), 1, f);
         fwrite(&(stanza->numero_sud), sizeof(stanza->numero_sud), 1, f);
@@ -147,6 +149,8 @@ Eroe* carica_partita(){
         Stanza* stanza = malloc(sizeof(Stanza));                                        //crea la nuova stanza
         controlla_allocazione(stanza);
         fread(&(stanza->ID), sizeof(stanza->ID), 1, f);                                 //leggi l'ID della stanza
+        fread(stanza->nome, sizeof(stanza->nome), 1, f);                                //leggi il nome della stanza
+        fread(stanza->nome, sizeof(stanza->nome), 1, f);                                //leggi la descrizione della stanza
         fread(&(stanza->numero_nord), sizeof(stanza->numero_nord), 1, f);               //leggi il numero della stanza a nord
         fread(&(stanza->numero_est), sizeof(stanza->numero_est), 1, f);                 //leggi il numero della stanza a est
         fread(&(stanza->numero_sud), sizeof(stanza->numero_sud), 1, f);                 //leggi il numero della stanza a sud

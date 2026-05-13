@@ -21,25 +21,27 @@ void stampa_inventario(Inventario* i) {
         printf("Inventario vuoto.\n");
         return;
     }
+    int num=1;
     while(current != NULL){                                                                 //scorri ogni oggetto nell'inventario
         switch(current->tipo){                                                              //output in base al tipo
             case POZIONE:
-                printf("Pozione con cura %d\n", current->val);
+                printf("\t%d\tPozione con cura %d\n", num, current->val);
                 break;
             case ARMA:
-                printf("Arma con danno %d\n", current->val);
+                printf("\t%d\tArma con danno %d\n", num, current->val);
                 break;  
             case ARMATURA:
-                printf("Armatura con difesa %d\n", current->val);
+                printf("\t%d\tArmatura con difesa %d\n", num, current->val);
                 break;
             case CHIAVE:
-                printf("Questa chiave sblocca una porta %d\n", current->val);
+                printf("\t%d\tQuesta chiave sblocca una porta %d\n", num, current->val);
                 break;
             case TORCIA:
-                printf("Questa torcia ti permette di vedere al buio\n");
+                printf("\t%d\tQuesta torcia ti permette di vedere al buio\n", num);
                 break;
         }
         current = current->next;
+        num++;
     }
 }
 
@@ -117,7 +119,7 @@ void cambia_stanza(Eroe* e, char* direzione){
         cambiato = true;
     }
     if(cambiato)
-        printf("Hai cambiato stanza. Ora ti trovi nella stanza numero %d\n", e->stanza_corrente->ID);
+        printf("Hai cambiato stanza. Ora ti trovi nella stanza: %s\n", e->stanza_corrente->nome);
 }
 
 TipoOggetto tipo_oggetto(char* input){
@@ -135,6 +137,9 @@ void prendi_oggetto(Eroe* e, TipoOggetto tipo){
     }
     else if(e->stanza_corrente->oggetto == NULL || e->stanza_corrente->oggetto->tipo != tipo){      //se l'oggetto non esiste oppure è un altro tipo di oggetto
         printf("Oggetto non presente nella stanza\n");
+    }
+    else if(e->stanza_corrente->mostro->tipo == DRAGO && tipo == CHIAVE){
+        printf("Per prendere questa chiave devi prima sconfiggere il drago\n");
     }
     else{
         Oggetto* o = (Oggetto*)malloc(sizeof(Oggetto));                             //crea l'oggetto
