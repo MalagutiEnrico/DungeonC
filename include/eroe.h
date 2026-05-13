@@ -107,6 +107,13 @@ Bool usa_chiave(Eroe* e, int val);
 void usa_torcia(Eroe* e);
 
 /**
+ * Funzione che controlla se è necessario incrementare il livello dell'eroe
+ * @param Eroe* e
+ * @param int* soglie dei livelli
+ */
+void controlla_livello(Eroe* e, int* soglie);
+
+/**
  * Funzione che elimina l'inventario dell'eroe
  * @param Inventario* inventario da eliminare
 */

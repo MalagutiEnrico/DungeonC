@@ -21,27 +21,25 @@ void stampa_inventario(Inventario* i) {
         printf("Inventario vuoto.\n");
         return;
     }
-    int num=1;
     while(current != NULL){                                                                 //scorri ogni oggetto nell'inventario
         switch(current->tipo){                                                              //output in base al tipo
             case POZIONE:
-                printf("\t%d\tPozione con cura %d\n", num, current->val);
+                printf("\t1.\tPozione con cura %d\n", current->val);
                 break;
             case ARMA:
-                printf("\t%d\tArma con danno %d\n", num, current->val);
+                printf("\t1.\tArma con danno %d\n", current->val);
                 break;  
             case ARMATURA:
-                printf("\t%d\tArmatura con difesa %d\n", num, current->val);
+                printf("\t1.\tArmatura con difesa %d\n", current->val);
                 break;
             case CHIAVE:
-                printf("\t%d\tQuesta chiave sblocca una porta %d\n", num, current->val);
+                printf("\t1.\tQuesta chiave sblocca una porta %d\n", current->val);
                 break;
             case TORCIA:
-                printf("\t%d\tQuesta torcia ti permette di vedere al buio\n", num);
+                printf("\t1.\tQuesta torcia ti permette di vedere al buio\n");
                 break;
         }
         current = current->next;
-        num++;
     }
 }
 
@@ -53,7 +51,9 @@ Eroe* crea_eroe(){
     printf("===============================\n");
     printf("Inserisci il nome dell'eroe: ");
     scanf("%[^\n]", &e->nome);
+    clear_buffer();
     e->HP = MAX_SALUTE;                             //inizializza i valori dell'eroe
+    e->livello = 1;
     e->XP = 0;
     e->sheld = 0;
     e->danno = DANNI_INIZIALI;
@@ -69,6 +69,7 @@ Eroe* crea_eroe(){
 
 void stampa_stato(Eroe* e){
     printf("Nome: %s\n", e->nome);
+    printf("Livello: %d\n", e->livello);
     printf("HP: %d\n", e->HP);
     printf("XP: %d\n", e->XP);
     printf("Sheld: %d\n", e->sheld);
@@ -317,6 +318,19 @@ void usa_torcia(Eroe* e){
     }
     else{
         printf("Nella stanza ovest non puoi entrare, c'è un muro\n");
+    }
+}
+
+void controlla_livello(Eroe* e, int* soglie){
+    if(e->XP > soglie[(e->livello) - 1]){
+        e->livello++;
+        printf("================================================\n");
+        printf("||      HAI RAGGIUNTO IL NUOVO LIVELLO        ||\n");
+        printf("||          ORA SEI AL LIVELLO %d             ||\n", e->livello);
+        printf("|| HAI GUADAGNATO 10 PUNTI SALUTE E 10 SCUDO  ||\n");
+        printf("================================================\n");
+        e->danno += 10;
+        e->sheld += 10;
     }
 }
 

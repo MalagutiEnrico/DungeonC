@@ -7,7 +7,7 @@
 #define MAX_DIMDESC 200         //dimensione massima delle descrizioni delle stanze
 #define MAX_SALUTE 100          //valore massimo di salute dell'eroe
 #define DANNI_INIZIALI 10       //numero di danni che fa all'inizio del gioco
-#define STANZA_CARICAMENTO 1   //stanza iniziale del gioco
+#define STANZA_CARICAMENTO 1   //stanza iniziale del gioco;
 
 //Definizione delle variabili booleane
 typedef enum{
@@ -118,6 +118,7 @@ typedef struct{
 //struttura per l'eroe
 typedef struct{
     char* nome[20];
+    int livello;
     int HP;
     int XP;
     int sheld;
