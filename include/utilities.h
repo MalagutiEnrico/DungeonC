@@ -39,6 +39,12 @@ TipoComando parse(char* input);
 void help();
 
 /**
+ * Funzione che fa terminare il programma. Prima di chiudere il gioco, chiede all'utente se vuole salvare i progressi
+ * @param Eroe* e eroe da salvare
+*/
+void esci(Eroe* e);
+
+/**
  * Funzione che salva la partita
  * @param Eroe* eroe da salvare nel file partita.sav
  */

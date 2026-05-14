@@ -139,8 +139,8 @@ void prendi_oggetto(Eroe* e, TipoOggetto tipo){
     else if(e->stanza_corrente->oggetto == NULL || e->stanza_corrente->oggetto->tipo != tipo){      //se l'oggetto non esiste oppure è un altro tipo di oggetto
         printf("Oggetto non presente nella stanza\n");
     }
-    else if(e->stanza_corrente->mostro->tipo == DRAGO && tipo == CHIAVE){
-        printf("Per prendere questa chiave devi prima sconfiggere il drago\n");
+    else if(e->stanza_corrente->mostro->tipo != NO_MOSTRO){
+        printf("Per prendere questa chiave devi prima sconfiggere il mostro che popola la stanza\n");
     }
     else{
         Oggetto* o = (Oggetto*)malloc(sizeof(Oggetto));                         //crea l'oggetto
@@ -184,11 +184,9 @@ void elimina_oggetto(Inventario* i, Oggetto* o){
     Oggetto* current = i->next;
     while(current != NULL){                         //caso in cui sia in mezzo
         if(current->tipo == o->tipo){
-            Oggetto* current = i->next;
-            while (current->next->next != NULL)
-                current = current->next;
-            free(current->next);
-            current->next = NULL;
+            Oggetto* tmp = current->next;
+            current->next = current->next->next;
+            free(tmp);
             i->len--;
             return;
         }
@@ -322,7 +320,7 @@ void usa_torcia(Eroe* e){
 }
 
 void controlla_livello(Eroe* e, int* soglie){
-    if(e->XP > soglie[(e->livello) - 1]){                                           //se il livello degli XP è maggiore della soglia del livello dell'eroe
+    while(e->XP > soglie[(e->livello) - 1]){                                        //finchè il livello degli XP è maggiore della soglia del livello dell'eroe
         e->livello++;                                                               //aumenta il livello
         printf("================================================\n");
         printf("||      HAI RAGGIUNTO IL NUOVO LIVELLO        ||\n");

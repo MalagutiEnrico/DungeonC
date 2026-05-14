@@ -54,6 +54,7 @@ TipoComando parse(char* input){
     else if(strcmp(input, "car") == 0)            return CARICA;
     else if(strcmp(input, "map") == 0)            return MAPPA;
     else if(strcmp(input, "hel") == 0)            return HELP;
+    else if(strcmp(input, "esc") == 0)            return ESCI;
     else                                          return INVALIDO;
 }
 
@@ -69,6 +70,21 @@ void help(){
     printf("CARICA:\tcomando che ti carica i dati della partita\n");
     printf("MAPPA:\tcomando che ti mostra la mappa\n");
     printf("HELP:\tcomando che ti mostra i comandi disponibili\n");
+}
+
+void esci(Eroe* e){
+    char scelta;
+    do{
+        printf("Vuoi salvare i progressi di gioco prima di uscire(s-n): ");
+        scanf("%c", &scelta);
+        clear_buffer();
+        if(scelta != 's' && scelta != 'n')
+            printf("Scelta inserita non valida\n");
+    }while(scelta != 's' && scelta != 'n');
+    if(scelta == 's')   
+    salva_partita(e);
+    printf("ARRIVEDERCI, %s\n", e->nome);
+    exit(0);
 }
 
 void salva_partita(Eroe* e){
@@ -217,6 +233,9 @@ Bool esegui_comando(Eroe* e, TipoComando cmd, char* argomento){
             break;
         case HELP:
             help();
+            break;
+        case ESCI:
+            esci(e);
             break;
         case INVALIDO:
             printf("Comando non valido. Digita help per vedere i comandi disponibili\n");
