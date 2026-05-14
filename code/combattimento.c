@@ -25,37 +25,37 @@ TipoMostro tipo_mostro(char* input){
 Bool combattimento(Eroe* e, char* argomento){
     int danno_mostro, danno_eroe, turni=1;
     TipoMostro tipo = tipo_mostro(argomento);
-    if(e->stanza_corrente->mostro->tipo == tipo){
+    if(e->stanza_corrente->mostro->tipo == tipo){                   //se il tipo del mostro nella stanza è corrispondente all'input
         Mostro* m = e->stanza_corrente->mostro;
         printf("===========COMBATTIMENTO INIZIATO============\n");
-        while(e->HP > 0 && m->HP > 0){              //ciclo loop, finchè una delle due vite è maggiore di 0
+        while(e->HP > 0 && m->HP > 0){                              //ciclo loop, finchè una delle due vite è maggiore di 0
             printf("=====TURNO NUMERO %d=====\n", turni);
-            danno_mostro = attacco_mostro(m);
+            danno_mostro = attacco_mostro(m);                       //calcola i danni del turno
             danno_eroe = attacco_eroe(e);
-            if(e->sheld - danno_mostro >= 0)
+            if(e->sheld - danno_mostro >= 0)                        //se l'eroe ha dello scudo sottrai i danni del mostro dallo scudo
                 e->sheld -= danno_mostro;
             else if(e->sheld - danno_mostro < 0 && e->sheld > 0){   //caso in cui il danno risulta maggiore dello scudo dell'eroe
                 e->HP = e->HP - (danno_mostro - e->sheld);
                 e->sheld = 0;
             }
-            else
+            else                                                    //caso in cui lo scudo sia uguale a zero toglie i danni dalla salute dell'eroe
                 e->HP -= danno_mostro;
             m->HP -= danno_eroe;
+            if(e->HP <= 0)                                          //se l'eroe ha finito la vita termina il gioco
+                return true;
+            else if(m->HP <= 0){                                    //se il mostro ha finito la vita
+                e->XP += m->XP;                                     //aggiungi all'eroe gli XP del mostro
+                if(m->tipo == BOSS)                                 //se il mostro era il BOSS fai terminare il gioco
+                    return true;
+                printf("Hai sconfitto il mostro.\nHai guadagnato %d punti XP\n", m->XP);
+                e->stanza_corrente->mostro->tipo = NO_MOSTRO;       //imposta il tipo di mostro a NO_MOSTRO nella stanza corrente dell'eroe
+                return false;
+            }
             printf("Hai fatto %d danni al mostro, ma il mostro ti ha tolto %d punti vita.\n", danno_eroe, danno_mostro);
             printf("Ti sono rimasti %d HP e %d punti dello scudo\n", e->HP, e->sheld);
             printf("Al mostro sono rimasti %d punti vita\n", m->HP);
             turni++;
             system("PAUSE");
-            if(e->HP <= 0)
-                return true;
-            else if(m->HP <= 0){
-                e->XP += m->XP;
-                if(m->tipo == BOSS)
-                    return true;
-                printf("Hai sconfitto il mostro.\nHai guadagnato %d punti XP\n", m->XP);
-                e->stanza_corrente->mostro->tipo = NO_MOSTRO;
-                return false;
-            }
         }
     }
     else{

@@ -5,7 +5,7 @@ id,nome,descrizione,nord,est,sud,ovest,mostro,oggetto,valore
 4,"Il Giardino di Vetriolo","Una serra sotterranea dove piante di cristallo crescono tra canali di acido fluorescente.",-1,7,2,5,0,4,6
 5,"La Camera del Tormento","Una stanza rettangolare dotata di ganci che pendono dal soffitto e un pavimento coperto di sale grosso.",-6,4,-1,-1,0,1,15
 6,"La Tana del Drago","Un’immensa cupola di ossidiana ricolma di tesori maledetti e ossa colossali, dominata da un trono di teschi dove il drago riposa tra vapori sulfurei.",-1,-1,5,-1,3,4,9
-7,"Il Crocevia delle Ombre","Una stanza a cupola con quattro uscite identiche, dove le ombre dei presenti si muovono indipendentemente.",10,8,-1,4,3,4,6
+7,"Il Crocevia delle Ombre","Una stanza a cupola con quattro uscite identiche, dove le ombre dei presenti si muovono indipendentemente.",10,8,-1,4,2,0,0
 8,"La Fucina Abissale","Un ambiente asimmetrico riscaldato da una colata lavica bluastra che alimenta un’incudine di ferro freddo.",-1,-1,-9,7,1,1,20
 9,"Il Dormitorio dei Gusci","Una lunga galleria fiancheggiata da nicchie contenenti corpi immobili avvolti in bozzoli di seta nera.",8,-1,11,-1,0,3,20
 10,"La Galleria d'Arte Malvagia","Una stanza dove ci sono opere, ma sembra siano state rovinate",-1,-1,7,-1,0,0,0 

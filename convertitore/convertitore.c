@@ -1,13 +1,16 @@
-/*Questo programma converte una mappa dal formato .txt al formato .map
+/*Questo programma converte una mappa dal formato .csv al formato .map
 Ogni stanza è allocata quando un giocatore ci entra per la prima volta; è quindi necessario 
 identificare ogni stanza con un numero, caricarla nel gioco e poi collegarla con le altre.
-Ogni stanza è rappresentata da una riga nel file, e i valori sono separati da uno spazio
+Ogni stanza è rappresentata da una riga nel file
 
-Struttura del file txt in input:
-NUMERO_STANZE           numero delle stanze presenti nel file
+Struttura del file CSV in input:
+La prima riga sarà la seguente:
+ID,nome,desc,nord,est,sud,mostro,oggetto,valore
 
-per ogni stanza è presente questa struttura:
+Per ogni stanza è presente questa struttura:
 ID                      ID della stanza -> serve per identificare la stanza nella mappa
+nome                    stringa con il nome della stanza (max 200 caratteri, scritto tra doppi apici)
+desc                    breve descrizione della stanza (max 200 caratteri, scritto tra doppi apici)
 nord                    numeri della stanze presenti nelle varie direzioni della stanza corrente
 est
 sud
@@ -24,7 +27,7 @@ Esempio di mappa
         Stanza 3    <-      Stanza 1        ->    Stanza 2
                       (no mostri o oggetti)
 La riga nel file.txt della stanza 1 sarà la seguente:
-1 4 2 -1 3 0 0 0 
+1,"nome","desc",4,2,-1,3,0,0,0
 */
 #include <stdio.h>
 #include <stdlib.h>
@@ -46,30 +49,8 @@ int main() {
     // salta header
     fgets(line, sizeof(line), f_csv);
 
-    while (fscanf(f_csv,
-        "%d, \"%199[^\"]\", \"%199[^\"]\", %d, %d, %d, %d, %d, %d, %d",
-        &s.ID,
-        s.nome,
-        s.desc,
-        &s.nord,
-        &s.est,
-        &s.sud,
-        &s.ovest,
-        &s.tipo_mostro,
-        &s.tipo_oggetto,
-        &s.valore_oggetto) == 10)
-    {
-        printf("%d,%s,%s,%d,%d,%d,%d,%d,%d,%d\n",
-    s.ID,
-    s.nome,
-    s.desc,
-    s.nord,
-    s.est,
-    s.sud,
-    s.ovest,
-    s.tipo_mostro,
-    s.tipo_oggetto,
-    s.valore_oggetto);
+    while(fscanf(f_csv, "%d, \"%199[^\"]\", \"%199[^\"]\", %d, %d, %d, %d, %d, %d, %d",&s.ID, s.nome, s.desc, &s.nord, &s.est, &s.sud, &s.ovest, &s.tipo_mostro, &s.tipo_oggetto, &s.valore_oggetto) == 10){
+        printf("%d,%s,%s,%d,%d,%d,%d,%d,%d,%d\n", s.ID, s.nome, s.desc, s.nord, s.est, s.sud, s.ovest, s.tipo_mostro, s.tipo_oggetto, s.valore_oggetto);
         fwrite(&s, sizeof(StanzaSalvataggio), 1, f_bin);
     }
 

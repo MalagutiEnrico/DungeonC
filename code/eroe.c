@@ -16,11 +16,11 @@ Inventario* crea_inventario(){
 
 void stampa_inventario(Inventario* i) {
     Oggetto* current = i->next;
-    printf("Oggetti presenti nell'inventario:\n");
-    if (current == NULL) {
+    if (current == NULL) {                                                                  //se l'inventario è uguale a NULL, allora è vuoto
         printf("Inventario vuoto.\n");
         return;
     }
+    printf("Oggetti presenti nell'inventario:\n");
     while(current != NULL){                                                                 //scorri ogni oggetto nell'inventario
         switch(current->tipo){                                                              //output in base al tipo
             case POZIONE:
@@ -49,21 +49,21 @@ Eroe* crea_eroe(){
     printf("===============================\n");
     printf("|| BENVENUTO NUOVO GIOCATORE ||\n");
     printf("===============================\n");
-    printf("Inserisci il nome dell'eroe: ");
+    printf("Inserisci il nome dell'eroe: ");                        //permetti all'utente di inserire il nome
     scanf("%[^\n]", &e->nome);
     clear_buffer();
-    e->HP = MAX_SALUTE;                             //inizializza i valori dell'eroe
+    e->HP = MAX_SALUTE;                                             //inizializza i valori dell'eroe
     e->livello = 1;
     e->XP = 0;
     e->sheld = 0;
     e->danno = DANNI_INIZIALI;
     e->inventario = crea_inventario();
     e->mappa = crea_mappa();
-    StanzaSalvataggio* s_s = carica_stanza(STANZA_CARICAMENTO);      //carica la stanza numero 1, quella in cui inizia il gioco
-    e->stanza_corrente = converti_stanza(s_s);      //e convertila in una stanza adatta al videogioco
-    e->mappa->inizio = e->stanza_corrente;          //infine impostala come stanza corrente dell'eroe
-    e->mappa->numero_stanze = 1;                    //imposta il numero di stanze caricate
-    e->stanza_corrente->next = NULL;                //non puntare a niente per evitare cicli infiniti
+    StanzaSalvataggio* s_s = carica_stanza(STANZA_CARICAMENTO);     //carica la stanza numero 1, quella in cui inizia il gioco
+    e->stanza_corrente = converti_stanza(s_s);                      //e convertila in una stanza adatta al videogioco
+    e->mappa->inizio = e->stanza_corrente;                          //infine impostala come stanza corrente dell'eroe
+    e->mappa->numero_stanze = 1;                                    //imposta il numero di stanze caricate
+    e->stanza_corrente->next = NULL;                                //non puntare a niente per evitare cicli infiniti
     return e;
 }
 
@@ -81,8 +81,8 @@ void cambia_stanza(Eroe* e, char* direzione){
     Stanza* s = NULL;
     Bool cambiato = false;
     Stanza* stanza_corrente = e->stanza_corrente;
-    if(!strcmp(direzione, "nord")){                       //in base alla direzione collega le stanza
-        numero_stanza = stanza_corrente->numero_nord;    //imposta il numero della stanza successiva
+    if(!strcmp(direzione, "nord")){                         //in base alla direzione collega le stanza
+        numero_stanza = stanza_corrente->numero_nord;       //imposta il numero della stanza successiva
     }
     else if(!strcmp(direzione, "est")){
         numero_stanza = stanza_corrente->numero_est;
@@ -97,13 +97,13 @@ void cambia_stanza(Eroe* e, char* direzione){
         printf("Direzione inserita non valida\n");
         return;
     }
-    if(numero_stanza == -1){                            //in caso sia uguale a 0 vuole dire che la stanza non è accessibile
+    if(numero_stanza == -1){                                //in caso sia uguale a -1 vuole dire che la stanza non è accessibile
         printf("In questa direzione è presente un muro. Cambia direzione oppure usa una torcia per vedere dove andare\n");
     }
-    else if(numero_stanza < -1){                         //caso stanza protetta da chiave
+    else if(numero_stanza < -1){                            //caso stanza protetta da chiave (numero minore di -1)
         printf("Per entrare in questa stanza serve una chiave\n");
     }
-    else if(trova_stanza(e->mappa, numero_stanza)){     //se trova la stanza in quelle già caricate, allora la collega alla stanza di provenienza
+    else if(trova_stanza(e->mappa, numero_stanza)){         //se trova la stanza in quelle già caricate, allora la collega alla stanza di provenienza
         s = e->mappa->inizio;
         while(s->ID != numero_stanza || s == NULL)
             s = s->next;
@@ -116,8 +116,8 @@ void cambia_stanza(Eroe* e, char* direzione){
         while(tmp->next != NULL)                        //collega la stanza appena creata alla lista delle stanze
             tmp = tmp->next;
         tmp->next = e->stanza_corrente;
-        e->mappa->numero_stanze++;
-        cambiato = true;
+        e->mappa->numero_stanze++;                      //aumenta il numero di stanze caricate
+        cambiato = true;                                //alza cambiato a true
     }
     if(cambiato)
         printf("Hai cambiato stanza. Ora ti trovi nella stanza: %s\n", e->stanza_corrente->nome);
@@ -143,9 +143,9 @@ void prendi_oggetto(Eroe* e, TipoOggetto tipo){
         printf("Per prendere questa chiave devi prima sconfiggere il drago\n");
     }
     else{
-        Oggetto* o = (Oggetto*)malloc(sizeof(Oggetto));                             //crea l'oggetto
+        Oggetto* o = (Oggetto*)malloc(sizeof(Oggetto));                         //crea l'oggetto
         controlla_allocazione(o);
-        o->tipo = tipo;
+        o->tipo = tipo;                                                         //imposta i tipi dell'oggetto
         o->val = e->stanza_corrente->oggetto->val;
         o->next = NULL;
         if(e->inventario->len == 0){                                            //caso in cui l'inventario sia vuoto
@@ -157,8 +157,8 @@ void prendi_oggetto(Eroe* e, TipoOggetto tipo){
                 tmp = tmp->next;
             tmp->next = o;
         }
-        e->inventario->len++;
-        e->stanza_corrente->oggetto->tipo = NO_OGGETTO;
+        e->inventario->len++;                                                   //aumenta la lunghezza dell'inventario
+        e->stanza_corrente->oggetto->tipo = NO_OGGETTO;                         //imposta il valore dell'oggetto a NO_OGGETTO
         printf("Oggetto aggiunto nell'inventario\n");
     }
 }
@@ -174,7 +174,7 @@ Oggetto* trova_oggetto(Eroe* e, TipoOggetto o){
 }
 
 void elimina_oggetto(Inventario* i, Oggetto* o){
-    if(i->next->tipo == o->tipo){
+    if(i->next->tipo == o->tipo){                   //caso in cui l'oggetto sia all'inizio della lista
         Oggetto* tmp = i->next;
         i->next = i->next->next;
         free(tmp);
@@ -182,7 +182,7 @@ void elimina_oggetto(Inventario* i, Oggetto* o){
         return;
     }
     Oggetto* current = i->next;
-    while(current != NULL){
+    while(current != NULL){                         //caso in cui sia in mezzo
         if(current->tipo == o->tipo){
             Oggetto* current = i->next;
             while (current->next->next != NULL)
@@ -198,8 +198,8 @@ void elimina_oggetto(Inventario* i, Oggetto* o){
 
 void usa_oggetto(Eroe* e, char* argomento){
     Bool usato = true;
-    TipoOggetto tipo = tipo_oggetto(argomento);
-    Oggetto* o = trova_oggetto(e, tipo);
+    TipoOggetto tipo = tipo_oggetto(argomento);                                 //ritorna al tipo di oggetto in base all'argomento
+    Oggetto* o = trova_oggetto(e, tipo);                                        //trova l'oggetto nell'inventario
     if(o != NULL){                                                              //se trova l'oggetto
         switch(tipo){                                                           //in base al tipo di oggetto
             case POZIONE:
@@ -243,15 +243,15 @@ void usa_pozione(Eroe* e, int val){
 }
 
 void usa_arma(Eroe* e, int val){
-    e->danno += val;
+    e->danno += val;                        //incrementa i danni dell'eroe
 }
 
 void usa_armatura(Eroe* e, int val){
-    e->sheld += val;
+    e->sheld += val;                        //aumenta il valore dello scudo
 }
 
 Bool usa_chiave(Eroe* e, int val){
-    Stanza* s = e->stanza_corrente;             //controlla tra le stanze
+    Stanza* s = e->stanza_corrente;             //la stanza di provenienza dell'eroe
     if(s->numero_nord == -val){                 //in caso il valore della stanza nella direzione sia il negativo del valore della chiave, allora la chiave apre quella porta
         s->numero_nord = val;
         printf("Porta sbloccata\n");
@@ -322,15 +322,15 @@ void usa_torcia(Eroe* e){
 }
 
 void controlla_livello(Eroe* e, int* soglie){
-    if(e->XP > soglie[(e->livello) - 1]){
-        e->livello++;
+    if(e->XP > soglie[(e->livello) - 1]){                                           //se il livello degli XP è maggiore della soglia del livello dell'eroe
+        e->livello++;                                                               //aumenta il livello
         printf("================================================\n");
         printf("||      HAI RAGGIUNTO IL NUOVO LIVELLO        ||\n");
         printf("||          ORA SEI AL LIVELLO %d             ||\n", e->livello);
         printf("|| HAI GUADAGNATO 10 PUNTI SALUTE E 10 SCUDO  ||\n");
         printf("================================================\n");
-        e->danno += 10;
-        e->sheld += 10;
+        e->danno += 10;                                                             //aggiungi danno
+        e->sheld += 10;                                                             //aggiungi scudo
     }
 }
 
