@@ -139,7 +139,7 @@ void prendi_oggetto(Eroe* e, TipoOggetto tipo){
     else if(e->stanza_corrente->oggetto == NULL || e->stanza_corrente->oggetto->tipo != tipo){      //se l'oggetto non esiste oppure è un altro tipo di oggetto
         printf("Oggetto non presente nella stanza\n");
     }
-    else if(e->stanza_corrente->mostro->tipo != NO_MOSTRO){
+    else if(e->stanza_corrente->mostro->tipo != NO_MOSTRO){                     //se è presente un mostro non fa prendere l'oggetto
         printf("Per prendere questa chiave devi prima sconfiggere il mostro che popola la stanza\n");
     }
     else{
@@ -183,7 +183,7 @@ void elimina_oggetto(Inventario* i, Oggetto* o){
     }
     Oggetto* current = i->next;
     while(current != NULL){                         //caso in cui sia in mezzo
-        if(current->tipo == o->tipo){
+        if(current->next->tipo == o->tipo){
             Oggetto* tmp = current->next;
             current->next = current->next->next;
             free(tmp);

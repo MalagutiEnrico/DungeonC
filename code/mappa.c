@@ -5,31 +5,6 @@
 #include "../include/mappa.h"
 #include "../include/utilities.h"
 
-static int indice_stanza(Stanza** stanze, int count, int id){
-    int i;
-    for(i = 0; i < count; i++){
-        if(stanze[i]->ID == id){
-            return i;
-        }
-    }
-    return -1;
-}
-
-static void stampa_mappa_compatta(Eroe* e){
-    Stanza* current = e->mappa->inizio;
-    printf("Mappa esplorata (formato compatto):\n");
-    while(current != NULL){
-        printf("%s Stanza %d | N:%d E:%d S:%d O:%d\n",
-               (current == e->stanza_corrente) ? "[*]" : "[ ]",
-               current->ID,
-               current->numero_nord,
-               current->numero_est,
-               current->numero_sud,
-               current->numero_ovest);
-        current = current->next;
-    }
-}
-
 Bool trova_stanza(Mappa* stanze, int numero_stanza){
     if(numero_stanza == -1)                                     //stanza non presente
         return false;
@@ -43,12 +18,22 @@ Bool trova_stanza(Mappa* stanze, int numero_stanza){
     return false;
 }
 
+int indice_stanza(Stanza** stanze, int count, int id){
+    int i;
+    for(i = 0; i < count; i++){
+        if(stanze[i]->ID == id){
+            return i;
+        }
+    }
+    return -1;
+}
+
 StanzaSalvataggio* carica_stanza(int numero_stanza){
     FILE* f = fopen("../convertitore/mappa.map", "rb");
     controlla_apertura(f);
     StanzaSalvataggio* s = (StanzaSalvataggio*)malloc(sizeof(StanzaSalvataggio)); //crea lo spazio di memoria per la stanza da leggere dal file
     controlla_allocazione(s);
-    long offset = (numero_stanza - 1) * sizeof(StanzaSalvataggio);    //sizeof dettato dal numero delle stanze + le stanze effettive
+    long offset = (numero_stanza - 1) * sizeof(StanzaSalvataggio);    //sizeof dettato dal numero delle stanze le stanze effettive
     if(fseek(f, offset, SEEK_SET) != 0){                                          //sposta il cursore nella posizione dettata dall'offset
         fclose(f);                                                                //in caso non vada a buon fine chiudi i file e ritorna a NULL
         free(s);
@@ -356,17 +341,6 @@ void stampa_mappa_ascii(Eroe* e, int numero_stanze){
 
     righe = (max_y - min_y) * passo_riga + 1;
     colonne = (max_x - min_x) * passo_colonna + 5;
-
-    if(righe > max_righe || colonne > max_colonne){
-        printf("Mappa troppo ampia per il formato ASCII, uso fallback.\n");
-        stampa_mappa_compatta(e);
-        free(stanze);
-        free(x);
-        free(y);
-        free(assegnata);
-        free(queue);
-        return;
-    }
 
     griglia = (char**)malloc(sizeof(char*) * righe);
     controlla_allocazione(griglia);

@@ -290,6 +290,11 @@ void fine_gioco(Eroe* e){
         printf("||      HAI VINTO     ||\n");
         printf("|| Hai ottenuto %dXP  ||\n", e->XP);
         printf("========================\n");
+        printf("||       CREDITS      ||\n");
+        printf("||   MALAGUTI ENRICO  ||\n");
+        printf("||   BELLINI MATTIA   ||\n");
+        printf("||  NADALINI FEDERICO ||\n");
+        printf("========================\n");
     }
     elimina_eroe(e);
 }
