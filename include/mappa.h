@@ -18,7 +18,7 @@ Bool trova_stanza(Mappa* p, int numero_stanza);
  * @param int id della stanza di cui ottenere l'indice
  * @return indice della stanza
 */
-int indice_stanza(Stanza** stanze, int count, int id)
+int indice_stanza(Stanza** stanze, int count, int id);
 
 /**
  * Funzione che carica la stanza dal file della mappa

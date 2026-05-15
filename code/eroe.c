@@ -55,7 +55,7 @@ Eroe* crea_eroe(){
     e->HP = MAX_SALUTE;                                             //inizializza i valori dell'eroe
     e->livello = 1;
     e->XP = 0;
-    e->sheld = 0;
+    e->shield = 0;
     e->danno = DANNI_INIZIALI;
     e->inventario = crea_inventario();
     e->mappa = crea_mappa();
@@ -72,7 +72,7 @@ void stampa_stato(Eroe* e){
     printf("Livello: %d\n", e->livello);
     printf("HP: %d\n", e->HP);
     printf("XP: %d\n", e->XP);
-    printf("Sheld: %d\n", e->sheld);
+    printf("Shield: %d\n", e->shield);
     printf("Ti trovi nella stanza: %s\n", e->stanza_corrente->nome);
 }
 
@@ -210,7 +210,7 @@ void usa_oggetto(Eroe* e, char* argomento){
                 break;
             case ARMATURA:
                 usa_armatura(e, o->val);
-                printf("Armatura equipaggiata. Ora hai %d punti sheld\n", e->sheld);
+                printf("Armatura equipaggiata. Ora hai %d punti shield\n", e->shield);
                 break;
             case CHIAVE:
                 usato = usa_chiave(e, o->val);
@@ -245,7 +245,7 @@ void usa_arma(Eroe* e, int val){
 }
 
 void usa_armatura(Eroe* e, int val){
-    e->sheld += val;                        //aumenta il valore dello scudo
+    e->shield += val;                        //aumenta il valore dello scudo
 }
 
 Bool usa_chiave(Eroe* e, int val){
@@ -328,7 +328,7 @@ void controlla_livello(Eroe* e, int* soglie){
         printf("|| HAI GUADAGNATO 10 PUNTI SALUTE E 10 SCUDO  ||\n");
         printf("================================================\n");
         e->danno += 10;                                                             //aggiungi danno
-        e->sheld += 10;                                                             //aggiungi scudo
+        e->shield += 10;                                                             //aggiungi scudo
     }
 }
 

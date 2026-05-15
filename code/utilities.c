@@ -70,6 +70,7 @@ void help(){
     printf("CARICA:\tcomando che ti carica i dati della partita\n");
     printf("MAPPA:\tcomando che ti mostra la mappa\n");
     printf("HELP:\tcomando che ti mostra i comandi disponibili\n");
+    printf("ESCI:\tcomando che ti fa uscire dal gioco\n");
 }
 
 void esci(Eroe* e){
@@ -91,9 +92,9 @@ void salva_partita(Eroe* e){
     FILE* f = fopen("../saves/partita.sav", "wb");                                                   //apri il file in modalità binaria
     controlla_apertura(f);
     fwrite(e->nome, sizeof(e->nome), 1, f);                                                  //scrivi il nome dell'eroe
-    fwrite(&(e->HP), sizeof(e->HP), 1, f);                                                  //scrivi i dati dell'eroe (HP, XP, sheld, danno)
+    fwrite(&(e->HP), sizeof(e->HP), 1, f);                                                  //scrivi i dati dell'eroe (HP, XP, shield, danno)
     fwrite(&(e->XP), sizeof(e->XP), 1, f);
-    fwrite(&(e->sheld), sizeof(e->sheld), 1, f);
+    fwrite(&(e->shield), sizeof(e->shield), 1, f);
     fwrite(&(e->danno), sizeof(e->danno), 1, f);
     Oggetto* oggetto = e->inventario->next;                                             //crea un oggetto temporaneo per salvare l'inventario
     fwrite(&(e->inventario->len), sizeof(e->inventario->len), 1, f);                        //salva la linghezza dell'inventario
@@ -135,7 +136,7 @@ Eroe* carica_partita(){
     fread(e->nome, sizeof(e->nome), 1, f);                                               //carica il nome dell'eroe
     fread(&(e->HP), sizeof(e->HP), 1, f);                                               //carica la salute dell'eroe
     fread(&(e->XP), sizeof(e->XP), 1, f);                                               //carica gli XP dell'eroe
-    fread(&(e->sheld), sizeof(e->sheld), 1, f);                                         //carica lo scudo
+    fread(&(e->shield), sizeof(e->shield), 1, f);                                         //carica lo scudo
     fread(&(e->danno), sizeof(e->danno), 1, f);                                         //carica il danno minimo
     e->inventario = crea_inventario();                                                  //crea lo spazio per l'inventario
     fread(&(e->inventario->len), sizeof(e->inventario->len), 1, f);                     //leggi quanti elementi ha l'inventario
@@ -248,6 +249,10 @@ Eroe* inizio_gioco(){
     Eroe* e = NULL;
     char carica;
     do{
+        printf("================================\n");
+        printf("||        DUNGEON C           ||\n");
+        printf("||   NEL BUIO DEL TERMINALE   ||\n");
+        printf("================================\n");
         printf("Vuoi caricare una partita salvata? (s/n): ");
         scanf("%c", &carica);
         clear_buffer();
@@ -266,7 +271,7 @@ Eroe* inizio_gioco(){
     }
     printf("================================\n");
     printf("||        DUNGEON C           ||\n");
-    printf("||   GIOCO NEL DUNGEON IN C   ||\n");
+    printf("||   NEL BUIO DEL TERMINALE   ||\n");
     printf("================================\n");
     printf("Fiato corto. Vista annebbiata. Un vuoto pneumatico dove dovrebbero esserci i tuoi ricordi. Non sai chi sei. Ma sai dove sei: nell'abisso.\n");
     printf("Una luce spettrale illumina una lettera che giace sul pavimento umido.\nLa raccogli, mentre una consapevolezza gelida ti scivola lungo la schiena leggendo quelle poche, brutali righe: ");

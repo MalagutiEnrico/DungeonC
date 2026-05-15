@@ -32,11 +32,11 @@ Bool combattimento(Eroe* e, char* argomento){
             printf("=====TURNO NUMERO %d=====\n", turni);
             danno_mostro = attacco_mostro(m);                       //calcola i danni del turno
             danno_eroe = attacco_eroe(e);
-            if(e->sheld - danno_mostro >= 0)                        //se l'eroe ha dello scudo sottrai i danni del mostro dallo scudo
-                e->sheld -= danno_mostro;
-            else if(e->sheld - danno_mostro < 0 && e->sheld > 0){   //caso in cui il danno risulta maggiore dello scudo dell'eroe
-                e->HP = e->HP - (danno_mostro - e->sheld);
-                e->sheld = 0;
+            if(e->shield - danno_mostro >= 0)                        //se l'eroe ha dello scudo sottrai i danni del mostro dallo scudo
+                e->shield -= danno_mostro;
+            else if(e->shield - danno_mostro < 0 && e->shield > 0){   //caso in cui il danno risulta maggiore dello scudo dell'eroe
+                e->HP = e->HP - (danno_mostro - e->shield);
+                e->shield = 0;
             }
             else                                                    //caso in cui lo scudo sia uguale a zero toglie i danni dalla salute dell'eroe
                 e->HP -= danno_mostro;
@@ -52,7 +52,7 @@ Bool combattimento(Eroe* e, char* argomento){
                 return false;
             }
             printf("Hai fatto %d danni al mostro, ma il mostro ti ha tolto %d punti vita.\n", danno_eroe, danno_mostro);
-            printf("Ti sono rimasti %d HP e %d punti dello scudo\n", e->HP, e->sheld);
+            printf("Ti sono rimasti %d HP e %d punti dello scudo\n", e->HP, e->shield);
             printf("Al mostro sono rimasti %d punti vita\n", m->HP);
             turni++;
             system("PAUSE");

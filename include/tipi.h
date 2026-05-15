@@ -7,6 +7,7 @@
 #define MAX_DIMDESC 200         //dimensione massima delle descrizioni delle stanze
 #define MAX_SALUTE 100          //valore massimo di salute dell'eroe
 #define DANNI_INIZIALI 10       //numero di danni che fa all'inizio del gioco
+#define LIVELLI 5               //numero di livelli possibile dell'eroe
 #define STANZA_CARICAMENTO 1   //stanza iniziale del gioco;
 
 //Definizione delle variabili booleane
@@ -58,7 +59,7 @@ typedef struct Oggetto{
 }Oggetto;
 
 //Definizione della lista oggetti presenti nelle stanze
-typedef struct{
+typedef struct ListaOggetti{
     Oggetto* head;
     int len;
 }ListaOggetti;
@@ -72,7 +73,7 @@ typedef struct Mostro{
 }Mostro;
 
 //definizione stanza caricata da file
-typedef struct{
+typedef struct StanzaSalvataggio{
     int ID;
     int nord;
     int est;
@@ -103,24 +104,24 @@ typedef struct Stanza{
     int numero_ovest;
 }Stanza;
 
-typedef struct{
+typedef struct Mappa{
     Stanza* inizio;
     int numero_stanze;
 }Mappa;
 
 //struttura dati pila inventario eroe
-typedef struct{
+typedef struct Inventario{
     Oggetto* next;
     int len;
 }Inventario;
 
 //struttura per l'eroe
-typedef struct{
+typedef struct Eroe{
     char* nome[20];
     int livello;
     int HP;
     int XP;
-    int sheld;
+    int shield;
     int danno;
     Inventario* inventario;
     Stanza* stanza_corrente;

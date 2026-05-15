@@ -10,6 +10,7 @@
 
 int main(){
     srand(time(NULL));
+    int SOGLIE[LIVELLI] = {10, 20, 50, 100, 200};
     char input[MAX_DIMINPUT];
     char carica;
     char** comando = NULL;
@@ -17,7 +18,6 @@ int main(){
     TipoComando cmd;
     Eroe* e = inizio_gioco();
     while(!fine){
-        int LIVELLI[5] = {10, 20, 50, 100, 200};
         stampa_stato(e);
         printf(">");
         scanf("%[^\n]", input);
@@ -25,7 +25,7 @@ int main(){
         comando = dividi_input(input);
         cmd = parse(comando[0]);
         fine = esegui_comando(e, cmd, comando[1]);
-        controlla_livello(e, LIVELLI);
+        controlla_livello(e, SOGLIE);
         printf("\n\n");
     }
     fine_gioco(e);
