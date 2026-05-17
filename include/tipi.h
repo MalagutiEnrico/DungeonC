@@ -58,12 +58,6 @@ typedef struct Oggetto{
     struct Oggetto* next;
 }Oggetto;
 
-//Definizione della lista oggetti presenti nelle stanze
-typedef struct ListaOggetti{
-    Oggetto* head;
-    int len;
-}ListaOggetti;
-
 //Definizione della struct mostro come nodo
 typedef struct Mostro{
     TipoMostro tipo;
